@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yg.mapper.OrderMapper">
+    <!--添加一个订单-->
+    <insert id="addOrder" parameterType="com.yg.pojo.Order">
+    insert into `order`(order_id,user_id,air_id,origin_time,destination_time,price,state)
+    values (#{order.orderId},#{order.userId},#{order.airId},#{order.originTime},#{order.destinationTime},#{order.price},#{order.state})
+    </insert>
+
+    <!--删除一个订单-->
+    <delete id="deleteOrder" parameterType="com.yg.pojo.Order">
+    delete from `order` where order_id=#{orderId}
+    </delete>
+
+    <!--更新一个订单-->
+    <update id="updateOrder">
+    update `order`
+    set order_id=#{order.orderId},user_id=#{order.userId},air_id=#{order.airId},origin_time=#{order.originTime},destination_time=#{order.destinationTime},price=#{order.price},state=#{order.state} where order_id=#{order.orderId}
+    </update>
+
+    <!--通过id查询一个订单-->
+    <select id="queryOrderById" resultType="com.yg.pojo.Order">
+    select * from `order`
+    where order_id=#{orderId}
+    </select>
+
+    <!--查询全部订单-->
+    <select id="queryAllOrder" resultType="com.yg.pojo.Order">
+    select * from `order` limit #{pageNo},#{pageSize}
+    </select>
+    <!--根据airId查询订单-->
+    <select id="queryOrderByAirId" resultType="com.yg.pojo.Order">
+        select * from `order`
+        where air_id=#{airId}
+    </select>
+    <!--根据用户ID查询订单-->
+    <select id="queryOrderByUserId" resultType="com.yg.pojo.Order">
+        select * from `order`
+        where user_id=#{userId}
+    </select>
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yg.mapper.FlightMapper">
+    <!--增加一个航班-->
+    <insert id="addFlight" parameterType="com.yg.pojo.Flight">
+        insert into flight (flight_id, origin, destination, origin_time, destination_time, price, air_id)
+        VALUES (#{flight.flightId},#{flight.origin},#{flight.destination},#{flight.originTime},#{flight.destinationTime},#{flight.price},#{flight.airId})
+    </insert>
+
+    <!--删除一个航班-->
+    <delete id="deleteFlight" parameterType="int">
+        delete from flight where flight_id=#{flightId}
+    </delete>
+
+    <!--更新一个航班-->
+    <update id="updateFlight" parameterType="com.yg.pojo.Flight">
+        update flight
+        set flight_id=#{flight.flightId},origin=#{flight.origin},destination=#{flight.destination},origin_time=#{flight.originTime}, destination_time=#{flight.destinationTime}, price=#{flight.price}, air_id=#{flight.airId} where flight_id=#{flight.flightId}
+    </update>
+
+    <!--查询航班信息-->
+    <select id="queryFlightById" resultType="com.yg.pojo.Flight">
+        select * from flight where flight_id=#{flightId}
+    </select>
+
+    <!--查询所有航班信息-->
+    <select id="queryAllFlight" resultType="com.yg.pojo.Flight">
+        select * from flight limit #{pageNo},#{pageSize}
+    </select>
+
+    <!--根据出发地到达地出发时间模糊查询-->
+    <select id="queryFlightInformation" parameterType="string" resultType="com.yg.pojo.Flight">
+    <bind name="originBl" value="'%'+origin+'%'"/>
+    <bind name="destinationBl" value="'%'+destination+'%'"/>
+    <bind name="flightTime" value="'%'+originTime+'%'"/>
+        select * from flight where origin like #{originBl} and destination like #{destinationBl} and origin_time like #{flightTime}
+    </select>
+    <!--根据飞机编号查询-->
+    <select id="queryFlightByAirId" parameterType="string" resultType="com.yg.pojo.Flight">
+        select * from flight where air_id=#{airId}
+    </select>
+</mapper>

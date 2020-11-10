@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yg.mapper.UserMapper">
+    <!--添加用户-->
+    <insert id="addUser" parameterType="com.yg.pojo.User">
+        insert into `user` (username,password,sex,phone,uid,email,birth)
+        values (#{user.username},#{user.password},#{user.sex},#{user.phone},#{user.uid},#{user.email},#{user.birth})
+    </insert>
+
+    <!--删除用户-->
+    <delete id="deleteUserById" parameterType="int">
+    delete from `user` where user_id=#{userId}
+    </delete>
+
+    <!--更新用户-->
+    <update id="updateUser" parameterType="com.yg.pojo.User">
+     update `user`
+     set username=#{user.username},password=#{user.password},sex=#{user.sex},phone=#{user.phone},uid=#{user.uid},email=#{user.email},birth=#{user.birth}where user_id=#{user.userId}
+    </update>
+
+    <!--根据userId查询用户-->
+    <select id="queryUserById" resultType="com.yg.pojo.User">
+        select * from `user`
+        where user_id=#{userId}
+    </select>
+    <!--根据username查询用户-->
+    <select id="queryUserByName" resultType="com.yg.pojo.User">
+        select * from `user`
+        where username=#{username}
+    </select>
+
+    <!--查询所有用户-->
+    <select id="queryAllUser" resultType="com.yg.pojo.User">
+        select * from `user` limit #{pageNo},#{pageSize}
+    </select>
+    <!--根据用户身份证号查询用户信息-->
+    <select id="queryUserByUid" resultType="com.yg.pojo.User">
+        select * from user where uid=#{uid}
+    </select>
+    <!--根据用户电话查询用户信息-->
+    <select id="queryUserByPhone" resultType="com.yg.pojo.User">
+        select * from user where phone=#{phone}
+    </select>
+    <!--登录-->
+    <select id="loginUser" resultType="com.yg.pojo.User">
+        select * from user where username=#{username} and password=#{password}
+    </select>
+    <!--用户修改密码-->
+    <update id="changePassword" parameterType="string">
+        update'user'
+        set password=#{password}
+        where username=#{username}
+    </update>
+
+
+</mapper>

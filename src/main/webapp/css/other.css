@@ -1,0 +1,182 @@
+* {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    box-sizing: border-box
+}
+
+body,
+html {
+    width: 100%;
+    height: 100%
+}
+#header{
+    width: 100%;
+    height: 10%;
+    padding: 5px 200px 0px;
+    background-color: white;
+}
+#header a img{
+    width: 300px;
+    height: 100%;
+}
+#header .entrance{
+    position: relative;
+    left: 40%;
+    text-decoration: none;
+}
+#menubar{
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    height: 10%;
+
+    background-color:#008acd;
+}
+#menubar hr{
+    margin: 0px;
+}
+div.dropdown{
+    position: relative;
+    display: inline-block;
+    left: 30%;
+}
+button.dropbt{
+    width:100px;
+    background-color: #008acd;
+    color:white;
+    padding: 10px;
+    font-size: 15px;
+    border: none;
+    cursor: pointer;
+}
+div.content{
+    display: none;
+    position: absolute;
+    background-color: #e4e4e4;
+    width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+div.content a{
+
+    color: blue;
+    padding: 10px 15px;
+    text-decoration: none;
+    text-align: center;
+    display: block;
+}
+div.dropdown:hover .content{
+    display: block;
+}
+div.dropdown:hover .dropbt{
+    background: #44a2ff;
+    color:white;
+}
+div.content a:hover{
+    color: #000000;
+    background-color:#ffffff;
+}
+button.logindropbt{
+    width:50px;
+    background-color: #008acd;
+    color:white;
+    padding: 10px;
+    font-size: 15px;
+    border: none;
+    cursor: pointer;
+}
+
+.wrap {
+    width: 1200px;
+    margin: 0 auto;
+    padding: 20px
+}
+
+.wrap header {
+    height: 48px;
+    background-color: #008acb;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    justify-content: space-between;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 5px
+}
+
+.wrap .cont {
+    margin-top: 20px
+}
+
+.wrap .cont .date {
+    width: 100%;
+    display: flex;
+    height: 62px;
+    border: 1px solid #d8dfe7;
+    align-items: center
+}
+
+.wrap .cont .date li {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 0
+}
+
+.wrap .cont .date li em {
+    font-style: normal;
+    font-size: 16px;
+    color: #008acb
+}
+
+.wrap .cont .date li:not(:last-child) {
+    border-right: 1px solid #d8dfe7
+}
+
+.wrap .cont .nav {
+    width: 100%;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #d8dfe7;
+    margin-top: 20px
+}
+
+.wrap .cont .nav li {
+    flex: 1;
+    text-align: center
+}
+
+.wrap .cont .flight {
+    width: 100%;
+    height: 114px;
+    margin-top: 30px
+}
+
+.wrap .cont .flight ul {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    background-color: #f6fafc
+}
+
+.wrap .cont .flight ul li {
+    flex: 1;
+    text-align: center;
+    border: 1px solid #dbeff9;
+    height: 100%;
+    line-height: 114px
+}
+
+.wrap .cont .flight ul li:not(:last-child) {
+    border-right: 1px solid #dbeff9
+}
+.rightlogin{
+    margin-right:150px;
+    float:right;
+}

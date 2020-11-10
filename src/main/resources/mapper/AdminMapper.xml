@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yg.mapper.AdminMapper">
+
+    <!--// 添加管理员-->
+    <insert id="addAdmin" parameterType="com.yg.pojo.Admin">
+    insert  into admin(id,name,password)
+    values (#{admin.id},#{admin.name},#{admin.password})
+    </insert>
+
+    <!--//删除管理员-->
+    <delete id="deleteAdminById" parameterType="int">
+    delete from admin where id=#{id}
+    </delete>
+
+    <!--//更新管理员-->
+    <update id="updateAdmin" parameterType="com.yg.pojo.Admin">
+    update admin
+    set id=#{id},name=#{admin.name},password=#{admin.password} where id=#{admin.id}
+    </update>
+
+    <!--//查询管理员-->
+    <select id="queryAdminById" resultType="com.yg.pojo.Admin">
+    select * from admin
+    where id=#{id}
+    </select>
+
+    <!--//查询所有管理员-->
+    <select id="queryAllAdmin" resultType="com.yg.pojo.Admin">
+    select * from admin
+    </select>
+    <!--管理员登录-->
+    <select id="loginAdmin" resultType="com.yg.pojo.Admin">
+        select * from admin where name = #{name} and password=#{password}
+    </select>
+</mapper>
