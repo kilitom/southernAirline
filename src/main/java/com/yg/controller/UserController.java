@@ -5,6 +5,7 @@ import com.yg.service.UserService;
 import com.yg.utils.RandomValidateCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletException;
@@ -148,7 +149,8 @@ public class UserController {
     //    管理员根据userId查询用户
     @RequestMapping(value = "queryUserById", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> queryUserById(@RequestParam("userId") String userId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public Map<String, Object> queryUserById(@RequestParam("userId") String userId,
+                                             HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         User user = userService.queryUserById(userId);
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -189,7 +191,8 @@ public class UserController {
     //    管理员查询所有用户
     @RequestMapping(value = "queryAllUser", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> queryAllUser(@RequestParam("pageNo") String pageNo, @RequestParam("pageSize") String pageSize) throws IOException {
+    public Map<String, Object> queryAllUser(@RequestParam("pageNo") String pageNo,
+                                            @RequestParam("pageSize") String pageSize) throws IOException {
         Map<String, Object> resultMap = new HashMap<String, Object>();
         String msg = "queryUsers success";
         String code = "200";
@@ -252,26 +255,42 @@ public class UserController {
         }
     }
 
+//    根据用户名 uid phone查询用户信息
+    @RequestMapping(value = "/queryUserByUsernameUidPhone", method = RequestMethod.POST)
+    public String queryUserByUsernameUidPhone(@RequestParam("name") String username,
+                                              @RequestParam("uid") String uid,
+                                              @RequestParam("phone") String phone,
+                                              Model model,
+                                              Map<String, Object> map){
+
+        User user = userService.queryUserByUsernameUidPhone(username,uid,phone);
+        if (user==null){
+            map.put("msg","用户不存在");
+            map.put("code",500);
+            return "password";
+        }
+       model.addAttribute("user",user);
+
+        return "rePass";
+    }
 
     //用户修改密码
     @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
-    public String changePassword(@RequestParam("username") String username,
+    public String changePassword(@RequestParam("name") String username,
                                  @RequestParam("password") String password,
                                  Map<String, Object> map) {
         int result = userService.changePassword(username, password);
-        if (result != 1) {
+        if (result == 1) {
             map.put("code", 200);
             map.put("msg", "修改成功");
             return "login";
         } else {
-            map.put("code", 200);
+            map.put("code", 500);
             map.put("msg", "修改失败");
-            return "change";
+            return "password";
         }
 
     }
-
-
 
     //    用户修改个人信息
     @RequestMapping(value = "/changeUser", method = RequestMethod.POST)

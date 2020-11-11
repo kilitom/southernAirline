@@ -59,4 +59,9 @@ public class UserServiceImpl implements UserService {
         return userMapper.changePassword(username,password);
     }
 
+    //    根据用户名身份证号电话查询用户信息
+    public User queryUserByUsernameUidPhone(String username, String uid, String phone) {
+        return userMapper.queryUserByUsernameUidPhone(username,uid,phone);
+    }
+
 }

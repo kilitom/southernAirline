@@ -26,5 +26,6 @@ public interface UserService {
     User loginUser(@Param("username") String username, @Param("password") String password);
     //用户修改密码
     int changePassword(@Param("username") String username, @Param("password") String password);
-
+//    根据用户名身份证号电话查询用户信息
+    User queryUserByUsernameUidPhone(@Param("username") String username, @Param("uid") String uid, @Param("phone") String phone);
 }
