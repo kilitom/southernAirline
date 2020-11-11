@@ -45,6 +45,9 @@
     <select id="loginUser" resultType="com.yg.pojo.User">
         select * from user where username=#{username} and password=#{password}
     </select>
+    <select id="queryUserByUsernameUidPhone" resultType="com.yg.pojo.User">
+        select * from user where username = #{username} and uid = #{uid} and phone = #{phone}
+    </select>
     <!--用户修改密码-->
     <update id="changePassword" parameterType="string">
         update'user'
