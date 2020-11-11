@@ -1,6 +1,8 @@
 package com.yg.controller;
 
+import com.google.gson.Gson;
 import com.yg.pojo.Flight;
+import com.yg.pojo.User;
 import com.yg.service.FlightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,20 +29,36 @@ public class FlightController {
     public String queryFlightInformation(@RequestParam String origin,
                                          @RequestParam String destination,
                                          @RequestParam Date originTime,
-                                         Model model) throws Exception {
+                                         Model model){
 
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        List<Flight> flights = flightService.queryFlightInformation(origin, destination, originTime);
-        if (flights == null) {
+        List<Flight> flightList = flightService.queryFlightInformation(origin, destination, originTime);
+        if (flightList == null) {
             resultMap.put("msg", "查询失败");
             resultMap.put("code", 500);
         }
         resultMap.put("code", 200);
-        resultMap.put("data", flights);
-        model.addAttribute("flights", flights);
-
+        model.addAttribute("flights", flightList);
 
         return "flightList";
+    }
+    //    查询航班返回Json数据@ResponseBody
+    @RequestMapping(value = "/queryFlightInformationMap", method = RequestMethod.GET)
+    @ResponseBody
+    public Map<String,Object> queryFlightInformationMap(@RequestParam String origin,
+                                         @RequestParam String destination,
+                                         @RequestParam Date originTime) throws Exception {
+
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        List<Flight> flightList = flightService.queryFlightInformation(origin, destination, originTime);
+        if (flightList == null) {
+            resultMap.put("msg", "查询失败");
+            resultMap.put("code", 500);
+        }
+        resultMap.put("code", 200);
+        resultMap.put("data", flightList);
+
+        return resultMap;
     }
 
     // 添加航班
@@ -145,7 +163,8 @@ public class FlightController {
     //    根据flightId查询航班
     @RequestMapping(value = "queryFlightById", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> queryFlightById(@RequestParam("flightId") String flightId, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    public Map<String, Object> queryFlightById(@RequestParam("flightId") String flightId,
+                                               HttpServletRequest req){
 
         Flight flight = flightService.queryFlightById(Integer.parseInt(flightId));
         Map<String, Object> resultMap = new HashMap<String, Object>();
@@ -168,6 +187,34 @@ public class FlightController {
 
         return resultMap;
     }
+
+//    根据航班AirId查询航班信息
+    @RequestMapping(value = "queryFlightByAirId",method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> queryFlightByAirId(@RequestParam("airId")String airId,HttpServletRequest req){
+        Flight flight = flightService.queryFlightByAirId(airId);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+
+        resultMap.put("data", flight);
+        String msg = "query success";
+        String code = "200";
+        if (airId == null || airId.equals("")) {
+            msg = "参数错误";
+            code = "500";
+            resultMap.put("msg", msg);
+            resultMap.put("code", code);
+            return resultMap;
+        }
+        resultMap.put("msg", msg);
+        resultMap.put("code", code);
+        resultMap.put("user",flight);
+
+        req.getSession().setAttribute("flight", flight);
+
+        return resultMap;
+    }
+
+
 
 
 }

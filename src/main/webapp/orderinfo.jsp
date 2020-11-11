@@ -221,21 +221,17 @@
             <li>起飞时间</li>
             <li>到达时间</li>
             <li>价格</li>
-            <li>预定</li>
         </ul>
-        <c:forEach items="${flights}" var="flight">
             <div class="flight">
                 <ul>
-                    <li>${flight.airId}</li>
-                    <li>${flight.origin}</li>
-                    <li>${flight.destination}</li>
-                    <li>${flight.originTime}</li>
-                    <li>${flight.destinationTime}</li>
-                    <li>${flight.price}</li>
-                    <li><button type="submit" value="预定" onclick="reserve()">预定</button></li>
+                    <li>${sessionScope.flight.airId}</li>
+                    <li>${sessionScope.flight.origin}</li>
+                    <li>${sessionScope.flight.destination}</li>
+                    <li>${sessionScope.flight.originTime}</li>
+                    <li>${sessionScope.flight.destinationTime}</li>
+                    <li>${sessionScope.flight.price}</li>
                 </ul>
             </div>
-        </c:forEach>
     </div>
 </div>
 <div class="div">

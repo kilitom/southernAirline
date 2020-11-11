@@ -12,8 +12,8 @@
     <link rel="stylesheet" href="css/other.css">
     <script type="text/javascript" src="js/jquery-1.7.2.js"></script>
     <script type="text/javascript">
-        function reserve(){
-            parent.location.href= "${pageContext.request.contextPath}/orderinfo.jsp";
+        function reserve() {
+            parent.location.href = "${pageContext.request.contextPath}/orderinfo.jsp";
         }
 
         function loginBtn() {
@@ -122,15 +122,20 @@
 
             <span>
                 <li>
-                    <span>出发城市:</span><input name="origin" type="text" style="width:100px; height:20px;">
-                    <span>到达城市:</span><input name="destination" type="text" style="width:100px; height:20px;">
-                    <span>出发日期:</span><input name="originTime" type="date" style="width:100px; height:20px;">
-                    <input type="submit" value="立即查询">
+                    <c:forEach items="${flights}" var="flight">
+                        <span>出发城市:</span><input name="origin" id="origin" value="${flight.origin}" type="text"
+                                                 style="width:100px; height:20px;">
+                        <span>到达城市:</span><input name="destination" id="destination" value="${flight.destination}"
+                                                 type="text" style="width:100px; height:20px;">
+                        <span>出发日期:</span><input name="originTime" id="originTime" value="${flight.originTime}"
+                                                 type="date" style="width:100px; height:20px;">
+                        <input type="submit" value="立即查询">
+                    </c:forEach>
                 </li>
             </span>
         </form>
     </header>
-    <div class="cont">
+    <div class="cont" id="cont">
         <ul class="nav">
             <li>航班信息</li>
             <li>起飞地</li>
@@ -140,23 +145,75 @@
             <li>价格</li>
             <li>预定</li>
         </ul>
-        <c:forEach items="${flights}" var="flight">
-            <div class="flight">
-                <ul>
-                    <li>${flight.airId}</li>
-                    <li>${flight.origin}</li>
-                    <li>${flight.destination}</li>
-                    <li>${flight.originTime}</li>
-                    <li>${flight.destinationTime}</li>
-                    <li>${flight.price}</li>
-                    <li>
-                        <button type="submit" value="预定" onclick="reserve()">预定</button>
-                    </li>
-                </ul>
-            </div>
-        </c:forEach>
     </div>
 </div>
 </body>
+<script type="text/javascript">
+    let origin = $("#origin").val();
+    let destination = $("#destination").val();
+    let originTime = $("#originTime").val();
+    $(function () {
+
+        function addData(flights) {
+            for (var i = 0; i < flights.length; i++) {
+                $("#cont").append("<div class='flight'>" +
+                    "                <ul>" +
+                    "                    <li>" + flights[i].airId + "</li>" +
+                    "                    <li>" + flights[i].origin + "</li>" +
+                    "                    <li>" + flights[i].destination + "</li>" +
+                    "                    <li>" + flights[i].originTime + "</li>" +
+                    "                    <li>" + flights[i].destinationTime + "</li>" +
+                    "                    <li>" + flights[i].price + "</li>" +
+                    "                    <li>" +
+                    "                        <button airId='" + flights[i].airId + "' type='button' class='reserve' value='预定'>预定</button>" +
+                    "                    </li>" +
+                    "                </ul>" +
+                    "            </div>");
+            }
+        }
+
+        function reserve() {
+            $(".reserve").click(function () {
+                let airId = $(this).attr("airId");
+                $.ajax({
+                    type: "POST",
+                    url: "queryFlightByAirId",
+                    data: {"airId": airId},
+                    success: function (data) {
+                        let jsonObj = data;
+                        if (jsonObj.code == "200") {
+                            window.location.href = "orderinfo.jsp"
+                        } else {
+                            alert(jsonObj.msg);
+                        }
+                    }
+                })
+            });
+        }
+
+
+        queryFlightInformation(origin, destination, originTime)
+
+        function queryFlightInformation(origin, destination, originTime) {
+
+            $.ajax({
+                type: "GET",
+                url: "queryFlightInformationMap",
+                data: {"origin": origin, "destination": destination, "originTime": originTime},
+                success: function (data) {
+                    var jsonObj = data;
+                    if (jsonObj.code == "200") {
+                        var flights = jsonObj.data;
+                        addData(flights)
+                        reserve();
+                    }else {
+                        alert(jsonObj.msg);
+                    }
+                }
+            });
+        }
+    })
+</script>
+
 
 </html>
