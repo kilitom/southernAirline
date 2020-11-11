@@ -130,7 +130,7 @@
         <div class="top-info-wrap">
             <ul class="top-info-list clearfix">
                 <li><a href="#">${sessionScope.adminName}</a></li>
-                <li><a href="#">退出</a></li>
+                <li><a href="removeAdmin">退出</a></li>
             </ul>
         </div>
     </div>

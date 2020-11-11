@@ -131,13 +131,13 @@
         <input id="tab1" type="button" onclick="click1()" value="机票预定">
         <input id="tab2" type="button" onclick="click2()" value="航班动态">
     </div>
-    <div id=tabcontent>
+    <div id=tabcontent  style="height: 300px;">
         <div id="tab1_content">
             <div id="tabbar1">
                 <input type="button" value="单程">
             </div>
             <form action="queryFlightInformation" method="get">
-                <table id="tab_content1" class="tab_content">
+                <table id="tab_content1" class="tab_content" style="height: 70px;">
                     <tr><td>出发城市</td><td>到达城市</td><td>出发时间</td></tr>
                     <tr>
                         <td><input id="form1_citySelect1" type="text" name="origin" required></td>
@@ -166,7 +166,7 @@
                             <td><input id="form2_calendar" type="date" name="originTime" required></td>
                         </tr>
                     </table>
-                    <input class="queryFlight" type="submit" value="查询航班">
+                    <input class="queryFlight" type="submit" value="查询航班" style=" height: 54px;">
                 </form>
             </div>
 

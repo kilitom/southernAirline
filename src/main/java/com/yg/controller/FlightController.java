@@ -20,8 +20,6 @@ public class FlightController {
 
     @Autowired
     private FlightService flightService;
-
-
     //    查询航班
     @RequestMapping(value = "/queryFlightInformation", method = RequestMethod.GET)
     public String queryFlightInformation(@RequestParam String origin,
@@ -42,6 +40,9 @@ public class FlightController {
 
         return "flightList";
     }
+
+
+    //
 
     // 添加航班
     @RequestMapping(value = "/addFlight", method = RequestMethod.POST)

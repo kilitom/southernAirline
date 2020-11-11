@@ -39,13 +39,13 @@
 </div>
 
 <div id="menubar">
-    <div class="dropdown">
+    <div class="dropdown" style="left: 384px;"  >
         <a href="index.jsp">
-            <button class="dropbt">首页</button>
+            <button class="dropbt" >首页</button>
         </a>
     </div>
-    <div class="dropdown">
-        <button class="dropbt">预定管理</button>
+    <div class="dropdown" style="left: 384px;"  >
+        <button class="dropbt"  >预定管理</button>
         <div class="content">
             <a href="https://b2c.csair.com/B2C40/newTrips/static/main/page/search/index.html">机票预定</a>
             <a href="https://www.csair.com/cn/bookings/value_add_service/hotel/">旅游预定</a>
@@ -54,8 +54,8 @@
             <a href="https://www.csair.com/cn/bookings/enterprise/corporate_travel/index.shtml">企业商旅</a>
         </div>
     </div>
-    <div class="dropdown">
-        <button class="dropbt">南航会员</button>
+    <div class="dropdown"  style="left: 384px;" >
+        <button class="dropbt"  > 南航会员</button>
         <div class="content">
             <a href="#">我的账户</a>
             <a href="#">我的订单</a>
@@ -65,8 +65,8 @@
             <a href="#">优惠专区</a>
         </div>
     </div>
-    <div class="dropdown">
-        <button class="dropbt">出行帮助</button>
+    <div class="dropdown"  style="left: 384px;" >
+        <button class="dropbt"   >出行帮助</button>
         <div class="content">
             <a href="../dwlogin/rules.jsp">购票服务</a>
             <a href="https://www.csair.com/cn/tourguide/booking/orders/order/lvkexuzhi/guonei/index.shtml">预订须知</a>
@@ -76,24 +76,24 @@
             <a href="#">运输规定</a>
         </div>
     </div>
-    <div class="dropdown">
-        <button class="dropbt">优惠信息</button>
+    <div class="dropdown"  style="left: 384px;" >
+        <button class="dropbt"  >优惠信息</button>
         <div class="content">
             <a href="https://www.csair.com/cn/favourable/discount_tickets_domestic/">优惠机票</a>
             <a href="https://www.csair.com/cn/favourable/mileage_promotion/">机票促销</a>
             <a href="https://www.csair.com/cn/favourable/joint_promotion/">精彩活动</a>
         </div>
     </div>
-    <div class="dropdown">
-        <button class="dropbt">NDC合作</button>
+    <div class="dropdown"   style="left: 384px;" >
+        <button class="dropbt" >NDC合作</button>
         <div class="content">
             <a href="#">NDC简介</a>
             <a href="#">api接口</a>
             <a href="#">申请合作</a>
         </div>
     </div>
-    <div class="dropdown">
-        <button class="dropbt">明珠俱乐部</button>
+    <div class="dropdown"  style="left: 384px;" >
+        <button class="dropbt" style="width:150px;"  >明珠俱乐部</button>
         <div class="content">
             <a href="#">账户管理</a>
             <a href="#">里程兑换</a>
@@ -115,17 +115,27 @@
 
 </div>
 
-<div class="wrap">
+<div class="wrap" style="
+    margin-left: 330px;
+    margin-right: 330px;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 190px;
+    padding-bottom: 10px;
+">
     <header>
         <form action="queryFlightInformation" method="get">
 
 
             <span>
                 <li>
-                    <span>出发城市:</span><input name="origin" type="text" style="width:100px; height:20px;">
-                    <span>到达城市:</span><input name="destination" type="text" style="width:100px; height:20px;">
-                    <span>出发日期:</span><input name="originTime" type="date" style="width:100px; height:20px;">
-                    <input type="submit" value="立即查询">
+                    <span>出发城市:</span><input name="origin" type="text" style="width:100px; height:30px;">
+                    <span>到达城市:</span><input name="destination" type="text" style="width:100px; height:30px;">
+                    <span>出发日期:</span><input name="originTime" type="date" style="width:130px; height:30px;">
+                    <input type="submit" value="立即查询" style="
+                           width: 84px;
+                           height: 34px;"
+                    >
                 </li>
             </span>
         </form>
@@ -150,11 +160,20 @@
                     <li>${flight.destinationTime}</li>
                     <li>${flight.price}</li>
                     <li>
-                        <button type="submit" value="预定" onclick="reserve()">预定</button>
+                        <button type="submit" flight value="预定" onclick="reserve()" style="
+
+                                width: 84px;
+                                height: 44px;"
+                        >预定</button>
                     </li>
                 </ul>
             </div>
         </c:forEach>
+      <div class="flight">
+        <c:if test="${flights.size()==0}">
+            <tr><td colspan="9" style="color:#ff0000;text-align:center;" >没有查询到相关信息</td></tr>
+        </c:if>
+      </div>
     </div>
 </div>
 </body>

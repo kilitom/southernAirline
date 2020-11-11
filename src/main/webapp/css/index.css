@@ -129,6 +129,8 @@ div.content a:hover{
 	border-radius: 5px;
 	background-color: #ff8000;
 	cursor: pointer;
+	font-size: 20px;
+
 }
 #tab2_content .queryFlight{
 	float: right;

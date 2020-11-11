@@ -123,6 +123,50 @@
             parent.location.href="${pageContext.request.contextPath}/remove"
 
         }
+        function addck(){
+            parent.location.href= "${pageContext.request.contextPath}/alipay.trade.page.pay.jsp";
+        }
+
+
+        //新增乘客
+        var collegediv =1;
+        var collegename=1;
+        //生成大学教育div
+        function addck(strid){
+            var o=document.getElementById(strid);
+            var div=document.createElement("div");
+            div.id = "chengke"+ collegediv;
+            var deletediv=document.createElement("div");
+            //拿到删除按钮的id并加1
+            var deletename=o.childNodes.item(4).id+1;
+            <!--div.innerHTML=o.innerHTML.replace(/\{0\}/ig,a);-->
+            //将现有的divhtml赋值给新创建的div
+            div.innerHTML=o.innerHTML;
+            document.getElementById("parentpoint").appendChild(div);
+            //给新的div的删除按钮赋值（动态加1）
+            div.childNodes.item(4).id=deletename;
+            collegediv++;
+            collegename++;
+        }
+        //动态删除大学教育经历div
+        function deleteck(obj)
+        {
+            <!--var strid=obj.name;-->
+            //获取本删除按钮的id值，并创建对象
+            var strid=obj.id;
+            var o=document.getElementById(strid);
+            var z=o.parentElement;
+            <!--var o=document.getElementsByTagName(strid)[4].parentElement;-->
+            //找到这个删除按钮对应的父div的值
+            <!--var stridone=document.getElementsByName(strid)[0].parentNode.id;-->
+            var stridone=z.id;
+            //判断本id对应的值并删除
+            var my = document.getElementById(stridone);
+            if (my != null){
+                my.parentNode.removeChild(my);}
+            <!--window.location.reload(); -->
+        }
+
     </script>
     <!--JS代码结束-->
 </head>
@@ -133,7 +177,7 @@
     <a href="index.jsp"><img alt="brand" src="images/sky.png"></a>
 </div>
 
-<div id="menubar">
+<div id="menubar" STYLE=" height: 90px;">
 
 
     <div class="dropdown">
@@ -190,7 +234,7 @@
         </div>
     </div>
     <div class="dropdown">
-        <button class="dropbt">明珠俱乐部</button>
+        <button class="dropbt" style=" width: 120px;">明珠俱乐部</button>
         <div class="content">
             <a href="#">账户管理</a>
             <a href="#">里程兑换</a>
@@ -210,7 +254,6 @@
     </div>
     <hr>
 </div>
-<p>&nbsp;</p>
 <p>&nbsp;</p>
 <div class="wrap">
     <div class="cont">
@@ -238,13 +281,14 @@
         </c:forEach>
     </div>
 </div>
-<div class="div">
+<div class="div" style="padding-left: 200px;
+    width: 1220px;
+    height: 340px;">
     <h1 align="left" style="font-size: 26px">乘机人信息 </h1>
     <p>&nbsp;</p>
     <p>&nbsp;</p>
-    <div id="main" align="left">
-        <form name="personalForm" method="post" action="RegisterController" onSubmit="return check(this)">
-
+    <div id="main" align="left" >
+        <form  name="personalForm" method="post" action="RegisterController" onSubmit="return check(this)">
             <div class="kv-item">
                <span class="kv-label">
              <label class="tsl" for="name">旅客姓名：</label>
@@ -252,33 +296,34 @@
                 <input type="text" name="name" class="text-align" id="name" placeholder="*必填项" autofocus size="25"
                        title="用户名">
             </div>
-
             <div class="kv-item">
                 <span class="kv-label">
                  <label class="tsl">旅客性别：</label>
                 </span>
                 <input type="text" name="sex">
             </div>
-
             <div class="kv-item">
                 <span class="kv-label">
                  <label class="tsl" for="news">证件信息：</label>
                 </span>
                 <th>
                     <select font-size:font-size:30px>
-                        <option value="身份证">身份证</option>
+                        <option value="大陆身份证">大陆身份证</option>
+                        <option value="港澳台身份证">港澳台身份证</option>
                     </select>
                 </th>
-                <input type="password" name="news" class="text-align" id="news" placeholder="*必填项" size="25"
-                       title="证件信息">
+                <input type="password" name="news" class="text-align" id="news" placeholder="*必填项" size="25"title="证件信息">
+                <div class="kv-item" style=" padding-top: 30px">
+                    <input type="submit" name="submit" id="addPassengers" style="border-radius: 9px"  onclick="addck()" value="添加乘客">
+                    <input type="submit" name="submit" id="submit" style="border-radius: 9px" value="提交">
+                </div>
             </div>
 
-            <div class="kv-item">
-                <input type="submit" name="submit" id="addPassengers" style="border-radius: 9px" value="添加乘客">
-                <input type="submit" name="submit" id="submit" style="border-radius: 9px" value="提交">
-            </div>
         </form>
     </div>
+
+
+
     <div>
         <input type="checkbox">阅读并接受<a href="chaolianjie.html">《旅客告知书》</a>
         <a href="chaolianjie.html">《旅客购票须知》</a>
