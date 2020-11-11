@@ -82,7 +82,7 @@
                     <span style="color: red">${msg}</span>
                     <div class="mt20">
                         <input type="checkbox" class="topLeft"><span class="topLeft">记住密码</span>
-                        <a href="change.jsp" class="topRight">找回密码或者账户</a>
+                        <a href="password.jsp" class="topRight">找回密码或者账户</a>
                     </div>
                     <div class="clean"></div>
                     <!-- 登录按钮-->

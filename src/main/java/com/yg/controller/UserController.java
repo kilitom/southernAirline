@@ -256,7 +256,8 @@ public class UserController {
     }
 
 //    根据用户名 uid phone查询用户信息
-    public String queryUserByUsernameUidPhone(@RequestParam("username") String username,
+    @RequestMapping(value = "/queryUserByUsernameUidPhone", method = RequestMethod.POST)
+    public String queryUserByUsernameUidPhone(@RequestParam("name") String username,
                                               @RequestParam("uid") String uid,
                                               @RequestParam("phone") String phone,
                                               Model model,
@@ -266,27 +267,27 @@ public class UserController {
         if (user==null){
             map.put("msg","用户不存在");
             map.put("code",500);
-            return "";
+            return "password";
         }
        model.addAttribute("user",user);
 
-        return "chang";
+        return "rePass";
     }
 
     //用户修改密码
     @RequestMapping(value = "/changePassword", method = RequestMethod.POST)
-    public String changePassword(@RequestParam("username") String username,
+    public String changePassword(@RequestParam("name") String username,
                                  @RequestParam("password") String password,
                                  Map<String, Object> map) {
         int result = userService.changePassword(username, password);
-        if (result != 1) {
+        if (result == 1) {
             map.put("code", 200);
             map.put("msg", "修改成功");
             return "login";
         } else {
-            map.put("code", 200);
+            map.put("code", 500);
             map.put("msg", "修改失败");
-            return "change";
+            return "password";
         }
 
     }
