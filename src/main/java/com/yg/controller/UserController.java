@@ -280,14 +280,15 @@ public class UserController {
                                  @RequestParam("password") String password,
                                  Map<String, Object> map) {
         int result = userService.changePassword(username, password);
-        if (result == 1) {
-            map.put("code", 200);
-            map.put("msg", "修改成功");
-            return "login";
-        } else {
+        if (result != 1) {
             map.put("code", 500);
             map.put("msg", "修改失败");
             return "password";
+
+        } else {
+            map.put("code", 200);
+            map.put("msg", "修改成功");
+            return "login";
         }
 
     }
