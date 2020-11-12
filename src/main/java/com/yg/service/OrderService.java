@@ -21,6 +21,4 @@ public interface OrderService  {
     Order queryOrderByAirId(@Param("airId") String airId);
     //    根据用户ID查询订单
     List<Order> queryOrderByUserId(@Param("userId") String userId);
-//    生成订单
-    int insertOrder(Order order);
 }

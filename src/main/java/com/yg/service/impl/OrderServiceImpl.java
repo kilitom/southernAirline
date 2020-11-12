@@ -41,8 +41,4 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.queryOrderByUserId(userId);
     }
 
-    @Override
-    public int insertOrder(Order order) {
-        return orderMapper.addOrder(order);
-    }
 }

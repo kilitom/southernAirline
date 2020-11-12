@@ -2,6 +2,7 @@ package com.yg.controller;
 
 import com.yg.pojo.Order;
 import com.yg.service.OrderService;
+import com.yg.utils.DateUtil;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -174,10 +176,15 @@ public class OrderController {
 //   生成订单
     @ResponseBody
     @RequestMapping(value = "insertOrder",method = RequestMethod.POST)
-    public Map<String,Object> insertOrder(Order order){
+    public Map<String,Object> insertOrder(Order order,
+                                          @RequestParam("originTime") String origintime,
+                                          @RequestParam("destinationTime") String destinationtime){
         Map<String,Object> map = new HashMap<>();
-
-        int i = orderService.insertOrder(order);
+        Date originTime = DateUtil.strToUtil(origintime);
+        Date detinationTime = DateUtil.strToUtil(destinationtime);
+        order.setOriginTime(DateUtil.utilToSql(originTime));
+        order.setDestinationTime(DateUtil.utilToSql(detinationTime));
+        int i = orderService.addOrder(order);
         if (i!=1){
             map.put("msg","生成订单失败");
             map.put("code",500);
@@ -187,5 +194,7 @@ public class OrderController {
         return map;
 
     }
+//    更新支付状态
+
 
 }

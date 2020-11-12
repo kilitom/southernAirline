@@ -59,7 +59,8 @@
             color: #FFFFFF;
             width: 150px;
         }
-        #addPassengers{
+
+        #addPassengers {
             margin-left: 80px;
             border: 1px solid #474E63;
             background: #E61156;
@@ -113,6 +114,7 @@
             }
             return check;
         }
+
         function loginBtn() {
             parent.location.href = "${pageContext.request.contextPath}/login.jsp";
 
@@ -123,12 +125,13 @@
         }
 
         function cancellationBtn() {
-            parent.location.href="${pageContext.request.contextPath}/remove"
+            parent.location.href = "${pageContext.request.contextPath}/remove"
 
         }
 
 
         var detail_div = 1;
+
         function add_div() {
             var e = document.getElementById("details");
             var div = document.createElement("div");
@@ -138,11 +141,10 @@
             document.getElementById("form").appendChild(div);
             detail_div++;
             var length = $(".detail_div").length;//获取已经添加的数量
-            if(length>3){
+            if (length > 3) {
                 alert("抱歉乘客人数不超过3人")
             }
         }
-
 
 
         function del_div() {
@@ -150,6 +152,42 @@
             var e = document.getElementById(id);
             document.getElementById("form").removeChild(e);
             detail_div--;
+        }
+    </script>
+
+    <script type="text/javascript" src="js/jquery-1.7.2.js">
+
+
+        function generateOrder() {
+            var username = arrUsername.join("/")
+            var uid = arrUid.join("/")
+            let userId =${sessionScope.user.userId};
+            let airId =${sessionScope.flight.airId};
+            let originTime =${sessionScope.flight.originTime};
+            let destinationTime =${sessionScope.flight.destinationTime};
+            let price =${sessionScope.flight.price};
+            let state = "未支付";
+            $.ajax({
+                type: "POST",
+                url: "insertOrder",
+                traditional: true,
+                data: {
+                    "username": username,
+                    "uid": uid,
+                    "userId": userId,
+                    "airId": airId,
+                    "originTime": originTime,
+                    "destinationTime": destinationTime,
+                    "price": price,
+                    "state": state
+                },
+                success: function (data) {
+                    var jsonObj = data;
+                    alert(jsonObj.msg);
+                    window.location.href = ""
+                }
+            });
+
         }
 
 
@@ -250,98 +288,101 @@
             <li>到达时间</li>
             <li>价格</li>
         </ul>
-            <div class="flight">
-                <ul>
-                    <li>${sessionScope.flight.airId}</li>
-                    <li>${sessionScope.flight.origin}</li>
-                    <li>${sessionScope.flight.destination}</li>
-                    <li>${sessionScope.flight.originTime}</li>
-                    <li>${sessionScope.flight.destinationTime}</li>
-                    <li>${sessionScope.flight.price}</li>
-                </ul>
-            </div>
+        <div class="flight">
+            <ul>
+                <li>${sessionScope.flight.airId}</li>
+                <li>${sessionScope.flight.origin}</li>
+                <li>${sessionScope.flight.destination}</li>
+                <li>${sessionScope.flight.originTime}</li>
+                <li>${sessionScope.flight.destinationTime}</li>
+                <li>${sessionScope.flight.price}</li>
+            </ul>
+        </div>
     </div>
 </div>
 <div class="div">
     <h1 align="left" style="font-size: 26px">乘机人信息 </h1>
     <p>&nbsp;</p>
     <div id="main" align="left">
-       <%-- <form name="personalForm" id="from" method="post" action="RegisterController" onSubmit="return check(this)">
-            &lt;%&ndash;xXIN信息div&ndash;%&gt;
-        <div id="tjck" class="flightsck">
-            <div class="kv-item">
-               <span class="kv-label">
-             <label class="tsl" for="name">旅客姓名：</label>
-              </span>
-                <input type="text" name="name" class="text-align" id="name" placeholder="*必填项" autofocus size="25"
-                       title="用户名">
-            </div>
-
-          &lt;%&ndash;  <div class="kv-item">
+        <%-- <form name="personalForm" id="from" method="post" action="RegisterController" onSubmit="return check(this)">
+             &lt;%&ndash;xXIN信息div&ndash;%&gt;
+         <div id="tjck" class="flightsck">
+             <div class="kv-item">
                 <span class="kv-label">
-                 <label class="tsl">旅客性别：</label>
-                </span>
-                <input type="text" name="sex">
-            </div>&ndash;%&gt;
-            <div class="kv-item">
-                <span class="kv-label">
-                 <label class="tsl" for="news">证件信息：</label>
-                </span>
-                <th>
-                    <select font-size:font-size:30px>
-                        <option value="身份证">身份证</option>
-                    </select>
-                </th>
-                <input type="password" name="news" class="text-align" id="news" placeholder="*必填项" size="25"
-                       title="证件信息">
+              <label class="tsl" for="name">旅客姓名：</label>
+               </span>
+                 <input type="text" name="name" class="text-align" id="name" placeholder="*必填项" autofocus size="25"
+                        title="用户名">
+             </div>
+
+           &lt;%&ndash;  <div class="kv-item">
+                 <span class="kv-label">
+                  <label class="tsl">旅客性别：</label>
+                 </span>
+                 <input type="text" name="sex">
+             </div>&ndash;%&gt;
+             <div class="kv-item">
+                 <span class="kv-label">
+                  <label class="tsl" for="news">证件信息：</label>
+                 </span>
+                 <th>
+                     <select font-size:font-size:30px>
+                         <option value="身份证">身份证</option>
+                     </select>
+                 </th>
+                 <input type="password" name="news" class="text-align" id="news" placeholder="*必填项" size="25"
+                        title="证件信息">
+             </div>
+         </div>
+             <div class="kv-item">
+                 <input type="submit" onclick="adddiv()" name="submit" id="addPassengers" style="border-radius: 9px" value="添加乘客">
+                 <input type="submit" onclick="deldiv()" name="submit" id="submit" style="border-radius: 9px" value="提交">
+             </div>
+         </form>--%>
+
+
+        <form id="form" role="form" method="post" class="custom-control">
+            <div class="form-inline">
+                <label for="details" class="custom-control-label col-md-2" style="font-size: 18px">乘客人数</label>
+                <button type="button" class="button btn-light" id="add-btn" onclick="add_div()" style="font-size: 18px">
+                    添加乘客
+                </button>
+                <button type="button" class="button btn-light" id="del-btn" onclick="del_div()" style="font-size: 18px">
+                    删除乘客
+                </button>
             </div>
-        </div>
-            <div class="kv-item">
-                <input type="submit" onclick="adddiv()" name="submit" id="addPassengers" style="border-radius: 9px" value="添加乘客">
-                <input type="submit" onclick="deldiv()" name="submit" id="submit" style="border-radius: 9px" value="提交">
+            <br>
+            <div class="form-group" id="details">
+                <div class="form-inline">
+                    <label for="receivable" class="custom-control-label col-md-3" style="font-size: 18px">乘客姓名: </label>
+                    <input type="text" class="form-control" id="receivable" value="" placeholder="*乘客姓名"/>
+                </div>
+                <br>
+                <div class="form-inline">
+                    <label for="period" class="custom-control-label col-md-3" style="font-size: 18px">乘客年龄: </label>
+                    <input type="text" class="form-control" id="period" value="" placeholder="*请输入年龄"/>
+                </div>
+                <br>
+                <div class="form-inline">
+                    <label for="kind" class="custom-control-label col-md-3" style="font-size: 18px">证件信息: </label>
+                    </span>
+                    <th>
+                        <select font-size:font-size:30px>
+                            <option value="身份证">大陆身份证</option>
+                            <option value="身份证">港澳身份证</option>
+                            <option value="身份证">台湾居民临时身份证</option>
+                        </select>
+                    </th>
+                    <input type="text" class="form-control" id="kind" value="" placeholder="*输入有效证件信息"/>
+                </div>
+                <br>
+                <hr>
             </div>
-        </form>--%>
+
+        </form>
 
 
-
-           <form id="form" role="form" method="post" class="custom-control">
-               <div class="form-inline">
-                   <label for="details" class="custom-control-label col-md-2" style="font-size: 18px">乘客人数</label>
-                   <button type="button" class="button btn-light" id="add-btn" onclick="add_div()"style="font-size: 18px">添加乘客</button>
-                   <button type="button" class="button btn-light" id="del-btn" onclick="del_div()"style="font-size: 18px">删除乘客</button>
-               </div>
-               <br>
-               <div class="form-group" id="details">
-                   <div class="form-inline">
-                       <label for="receivable" class="custom-control-label col-md-3" style="font-size: 18px">乘客姓名:  </label>
-                       <input type="text" class="form-control" id="receivable" value="" placeholder="*乘客姓名"/>
-                   </div>
-                   <br>
-                   <div class="form-inline">
-                       <label for="period" class="custom-control-label col-md-3"style="font-size: 18px">乘客年龄:  </label>
-                       <input type="text" class="form-control" id="period" value="" placeholder="*请输入年龄"/>
-                   </div>
-                   <br>
-                   <div class="form-inline">
-                       <label for="kind" class="custom-control-label col-md-3"style="font-size: 18px">证件信息:  </label>
-                       </span>
-                       <th>
-                           <select font-size:font-size:30px>
-                               <option value="身份证">大陆身份证</option>
-                               <option value="身份证">港澳身份证</option>
-                               <option value="身份证">台湾居民临时身份证</option>
-                           </select>
-                       </th>
-                       <input type="text" class="form-control" id="kind" value="" placeholder="*输入有效证件信息"/>
-                   </div>
-                   <br>
-                   <hr>
-               </div>
-
-           </form>
-
-
-      </div>
+    </div>
     <div>
         <input type="checkbox">阅读并接受<a href="chaolianjie.html">《旅客告知书》</a>
         <a href="chaolianjie.html">《旅客购票须知》</a>
@@ -349,7 +390,7 @@
         <a href="chaolianjie.html">《国内运输总条件》</a>
     </div>
     <div class="kv-item">
-        <input type="submit" onclick="deldiv()" name="submit" id="submit" style="border-radius: 9px;font-style:20px;" value="提交信息">
+        <input type="submit" onclick="deldiv()" name="submit" id="submit" style="border-radius: 9px;" value="提交信息">
     </div>
 
 </div>

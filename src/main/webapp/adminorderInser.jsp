@@ -53,12 +53,12 @@
                 <form action="addOrder" method="post" id="order" name="order">
                     <table class="insert-tab" width="100%">
                         <tbody>
-                        <tr>
-                            <th width="120"><i class="require-red"></i>订单id：</th>
-                            <td>
-                                <input class="common-text required" id="orderId" name="orderId" size="50" type="text">
-                            </td>
-                        </tr>
+<%--                        <tr>--%>
+<%--                            <th width="120"><i class="require-red"></i>订单id：</th>--%>
+<%--                            <td>--%>
+<%--                                <input class="common-text required" id="orderId" name="orderId" size="50" type="text">--%>
+<%--                            </td>--%>
+<%--                        </tr>--%>
                         <tr>
                             <th width="120"><i class="require-red"></i>用户id：</th>
                             <td><input class="common-text" id="userId" name="userId" size="50" type="text"></td>
