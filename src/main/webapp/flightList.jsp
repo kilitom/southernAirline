@@ -13,7 +13,7 @@
     <script type="text/javascript" src="js/jquery-1.7.2.js"></script>
     <script type="text/javascript">
         function reserve() {
-            parent.location.href = "${pageContext.request.contextPath}/orderinfo.jsp";
+            parent.location.href = "${pageContext.request.contextPath}/test1.jsp";
         }
 
         function loginBtn() {
@@ -38,7 +38,11 @@
     <a href="index.jsp"><img alt="brand" src="images/sky.png"></a>
 </div>
 
-<div id="menubar">
+<div id="menubar" style="
+     padding-top: 0px;
+     padding-bottom: 0px;
+     height: 70px;"
+>
     <div class="dropdown">
         <a href="index.jsp">
             <button class="dropbt">首页</button>
@@ -93,7 +97,7 @@
         </div>
     </div>
     <div class="dropdown">
-        <button class="dropbt">明珠俱乐部</button>
+        <button class="dropbt" style="width: 150px;">明珠俱乐部</button>
         <div class="content">
             <a href="#">账户管理</a>
             <a href="#">里程兑换</a>
@@ -115,20 +119,20 @@
 
 </div>
 
-<div class="wrap">
+<div class="wrap" style="height: 70px">
     <header>
         <form action="queryFlightInformation" method="get">
 
 
             <span>
                 <li>
-                    <c:forEach items="${flights}" var="flight">
+                    <c:forEach begin="1" end="1" items="${flights}" var="flight">
                         <span>出发城市:</span><input name="origin" id="origin" value="${flight.origin}" type="text"
                                                  style="width:100px; height:20px;">
                         <span>到达城市:</span><input name="destination" id="destination" value="${flight.destination}"
                                                  type="text" style="width:100px; height:20px;">
                         <span>出发日期:</span><input name="originTime" id="originTime" value="${flight.originTime}"
-                                                 type="date" style="width:100px; height:20px;">
+                                                 type="date" style="width:130px; height:20px;">
                         <input type="submit" value="立即查询">
                     </c:forEach>
                 </li>
@@ -136,7 +140,7 @@
         </form>
     </header>
     <div class="cont" id="cont">
-        <ul class="nav">
+        <ul class="nav" style="height: 50px">
             <li>航班信息</li>
             <li>起飞地</li>
             <li>到达地</li>
@@ -146,6 +150,11 @@
             <li>预定</li>
         </ul>
     </div>
+
+    <c:if test="${empty flights}">
+        <tr><td colspan="9" style="color:#ff0000;text-align:center;" >没有查询到相关信息</td></tr>
+    </c:if>
+
 </div>
 </body>
 <script type="text/javascript">
@@ -165,7 +174,7 @@
                     "                    <li>" + flights[i].destinationTime + "</li>" +
                     "                    <li>" + flights[i].price + "</li>" +
                     "                    <li>" +
-                    "                        <button airId='" + flights[i].airId + "' type='button' class='reserve' value='预定'>预定</button>" +
+                    "                        <button airId='" + flights[i].airId + "' type='button' class='reserve' value='预定' style=\"height: 53.975px;width: 83.975px;\">预定</button>" +
                     "                    </li>" +
                     "                </ul>" +
                     "            </div>");
@@ -182,7 +191,7 @@
                     success: function (data) {
                         let jsonObj = data;
                         if (jsonObj.code == "200") {
-                            window.location.href = "orderinfo.jsp"
+                            window.location.href = "test1.jsp"
                         } else {
                             alert(jsonObj.msg);
                         }

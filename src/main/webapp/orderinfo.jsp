@@ -123,6 +123,33 @@
             parent.location.href="${pageContext.request.contextPath}/remove"
 
         }
+
+
+        var detail_div = 1;
+        function add_div() {
+            var e = document.getElementById("details");
+            var div = document.createElement("div");
+            div.className = "form-group";
+            div.id = "details" + detail_div;
+            div.innerHTML = e.innerHTML;
+            document.getElementById("form").appendChild(div);
+            detail_div++;
+            var length = $(".detail_div").length;//获取已经添加的数量
+            if(length>3){
+                alert("抱歉乘客人数不超过3人")
+            }
+        }
+
+
+
+        function del_div() {
+            var id = "details" + (detail_div - 1).toString();
+            var e = document.getElementById(id);
+            document.getElementById("form").removeChild(e);
+            detail_div--;
+        }
+
+
     </script>
     <!--JS代码结束-->
 </head>
@@ -197,7 +224,6 @@
             <a href="#">里程累计</a>
         </div>
     </div>
-
     <div class="rightlogin">
         <c:if test="${not empty sessionScope.user}">
             <span><a href="indexuser.jsp">${sessionScope.user.username}</a></span>
@@ -210,8 +236,6 @@
     </div>
     <hr>
 </div>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
 <div class="wrap">
     <div class="cont">
         <ul class="nav">
@@ -237,10 +261,10 @@
 <div class="div">
     <h1 align="left" style="font-size: 26px">乘机人信息 </h1>
     <p>&nbsp;</p>
-    <p>&nbsp;</p>
     <div id="main" align="left">
-        <form name="personalForm" method="post" action="RegisterController" onSubmit="return check(this)">
-
+       <%-- <form name="personalForm" id="from" method="post" action="RegisterController" onSubmit="return check(this)">
+            &lt;%&ndash;xXIN信息div&ndash;%&gt;
+        <div id="tjck" class="flightsck">
             <div class="kv-item">
                <span class="kv-label">
              <label class="tsl" for="name">旅客姓名：</label>
@@ -249,13 +273,12 @@
                        title="用户名">
             </div>
 
-            <div class="kv-item">
+          &lt;%&ndash;  <div class="kv-item">
                 <span class="kv-label">
                  <label class="tsl">旅客性别：</label>
                 </span>
                 <input type="text" name="sex">
-            </div>
-
+            </div>&ndash;%&gt;
             <div class="kv-item">
                 <span class="kv-label">
                  <label class="tsl" for="news">证件信息：</label>
@@ -268,19 +291,63 @@
                 <input type="password" name="news" class="text-align" id="news" placeholder="*必填项" size="25"
                        title="证件信息">
             </div>
-
+        </div>
             <div class="kv-item">
-                <input type="submit" name="submit" id="addPassengers" style="border-radius: 9px" value="添加乘客">
-                <input type="submit" name="submit" id="submit" style="border-radius: 9px" value="提交">
+                <input type="submit" onclick="adddiv()" name="submit" id="addPassengers" style="border-radius: 9px" value="添加乘客">
+                <input type="submit" onclick="deldiv()" name="submit" id="submit" style="border-radius: 9px" value="提交">
             </div>
-        </form>
-    </div>
+        </form>--%>
+
+
+
+           <form id="form" role="form" method="post" class="custom-control">
+               <div class="form-inline">
+                   <label for="details" class="custom-control-label col-md-2" style="font-size: 18px">乘客人数</label>
+                   <button type="button" class="button btn-light" id="add-btn" onclick="add_div()"style="font-size: 18px">添加乘客</button>
+                   <button type="button" class="button btn-light" id="del-btn" onclick="del_div()"style="font-size: 18px">删除乘客</button>
+               </div>
+               <br>
+               <div class="form-group" id="details">
+                   <div class="form-inline">
+                       <label for="receivable" class="custom-control-label col-md-3" style="font-size: 18px">乘客姓名:  </label>
+                       <input type="text" class="form-control" id="receivable" value="" placeholder="*乘客姓名"/>
+                   </div>
+                   <br>
+                   <div class="form-inline">
+                       <label for="period" class="custom-control-label col-md-3"style="font-size: 18px">乘客年龄:  </label>
+                       <input type="text" class="form-control" id="period" value="" placeholder="*请输入年龄"/>
+                   </div>
+                   <br>
+                   <div class="form-inline">
+                       <label for="kind" class="custom-control-label col-md-3"style="font-size: 18px">证件信息:  </label>
+                       </span>
+                       <th>
+                           <select font-size:font-size:30px>
+                               <option value="身份证">大陆身份证</option>
+                               <option value="身份证">港澳身份证</option>
+                               <option value="身份证">台湾居民临时身份证</option>
+                           </select>
+                       </th>
+                       <input type="text" class="form-control" id="kind" value="" placeholder="*输入有效证件信息"/>
+                   </div>
+                   <br>
+                   <hr>
+               </div>
+
+           </form>
+
+
+      </div>
     <div>
         <input type="checkbox">阅读并接受<a href="chaolianjie.html">《旅客告知书》</a>
         <a href="chaolianjie.html">《旅客购票须知》</a>
         <a href="chaolianjie.html">《客票行李规定》</a>
         <a href="chaolianjie.html">《国内运输总条件》</a>
     </div>
+    <div class="kv-item">
+        <input type="submit" onclick="deldiv()" name="submit" id="submit" style="border-radius: 9px;font-style:20px;" value="提交信息">
+    </div>
+    
 </div>
 </body>
 </html>
