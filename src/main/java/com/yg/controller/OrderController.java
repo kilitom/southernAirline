@@ -2,6 +2,7 @@ package com.yg.controller;
 
 import com.yg.pojo.Order;
 import com.yg.service.OrderService;
+import com.yg.utils.DateUtil;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +50,7 @@ public class OrderController {
     //    删除订单
     @RequestMapping(value = "deleteOrderById", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> deleteOrderByOrderId(@RequestParam("orderId") String orderId) {
+    public Map<String,Object> deleteOrderByOrderId(@RequestParam("orderId") int orderId) {
         Map<String, Object> map = new HashMap<String, Object>();
         int result = orderService.deleteOrder(orderId);
         if (result != 1) {
@@ -82,7 +84,7 @@ public class OrderController {
 //    根据订单编号查询订单
     @RequestMapping(value = "queryOrderById",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> queryOrderById(@RequestParam("orderId") String orderId,
+    public Map<String,Object> queryOrderById(@RequestParam("orderId") int orderId,
                                              HttpServletRequest req,
                                              HttpServletResponse resp) throws IOException{
 
@@ -92,7 +94,7 @@ public class OrderController {
         resultMap.put("date",order);
         String msg = "query success";
         String code = "200";
-        if (orderId == null || orderId.equals("")){
+        if (orderId == 0){
             msg = "参数错误";
             code = "500";
             resultMap.put("msg",msg);
@@ -170,6 +172,29 @@ public class OrderController {
         model.addAttribute("orders",order);
         return  "orderList";
     }
+
+//   生成订单
+    @ResponseBody
+    @RequestMapping(value = "insertOrder",method = RequestMethod.POST)
+    public Map<String,Object> insertOrder(Order order,
+                                          @RequestParam("originTime") String origintime,
+                                          @RequestParam("destinationTime") String destinationtime){
+        Map<String,Object> map = new HashMap<>();
+        Date originTime = DateUtil.strToUtil(origintime);
+        Date detinationTime = DateUtil.strToUtil(destinationtime);
+        order.setOriginTime(DateUtil.utilToSql(originTime));
+        order.setDestinationTime(DateUtil.utilToSql(detinationTime));
+        int i = orderService.addOrder(order);
+        if (i!=1){
+            map.put("msg","生成订单失败");
+            map.put("code",500);
+        }
+        map.put("msg","生成订单成功");
+        map.put("code",200);
+        return map;
+
+    }
+//    更新支付状态
 
 
 }

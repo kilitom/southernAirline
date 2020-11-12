@@ -126,6 +126,12 @@
 
             <span>
                 <li>
+                    <c:if test="${empty flights}">
+                        <span>出发城市:</span><input name="origin" id="origin" type="text" style="width:100px; height:20px;">
+                        <span>到达城市:</span><input name="destination" id="destination" type="text" style="width:100px; height:20px;">
+                        <span>出发日期:</span><input name="originTime" id="originTime" type="date" style="width:100px; height:20px;">
+                        <input type="submit" value="立即查询">
+                    </c:if>
                     <c:forEach begin="1" end="1" items="${flights}" var="flight">
                         <span>出发城市:</span><input name="origin" id="origin" value="${flight.origin}" type="text"
                                                  style="width:100px; height:20px;">

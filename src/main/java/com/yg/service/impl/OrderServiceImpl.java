@@ -17,7 +17,7 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.addOrder(order);
     }
 
-    public int deleteOrder(String orderId) {
+    public int deleteOrder(int orderId) {
         return orderMapper.deleteOrder(orderId);
     }
 
@@ -25,7 +25,7 @@ public class OrderServiceImpl implements OrderService {
         return orderMapper.updateOrder(order);
     }
 
-    public Order queryOrderById(String orderId) {
+    public Order queryOrderById(int orderId) {
         return orderMapper.queryOrderById(orderId);
     }
 
@@ -40,4 +40,5 @@ public class OrderServiceImpl implements OrderService {
     public  List<Order> queryOrderByUserId(String userId){
         return orderMapper.queryOrderByUserId(userId);
     }
+
 }

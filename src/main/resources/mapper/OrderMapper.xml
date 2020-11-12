@@ -3,8 +3,8 @@
 <mapper namespace="com.yg.mapper.OrderMapper">
     <!--添加一个订单-->
     <insert id="addOrder" parameterType="com.yg.pojo.Order">
-    insert into `order`(order_id,user_id,air_id,origin_time,destination_time,price,state)
-    values (#{order.orderId},#{order.userId},#{order.airId},#{order.originTime},#{order.destinationTime},#{order.price},#{order.state})
+    insert into `order`(user_id,air_id,origin_time,destination_time,price,state,username,uid)
+    values (#{order.userId},#{order.airId},#{order.originTime},#{order.destinationTime},#{order.price},#{order.state},#{order.username},#{order.uid})
     </insert>
 
     <!--删除一个订单-->
@@ -15,7 +15,7 @@
     <!--更新一个订单-->
     <update id="updateOrder">
     update `order`
-    set order_id=#{order.orderId},user_id=#{order.userId},air_id=#{order.airId},origin_time=#{order.originTime},destination_time=#{order.destinationTime},price=#{order.price},state=#{order.state} where order_id=#{order.orderId}
+    set order_id=#{order.orderId},user_id=#{order.userId},air_id=#{order.airId},origin_time=#{order.originTime},destination_time=#{order.destinationTime},price=#{order.price},state=#{order.state},username=#{order.username},uid=#{order.uid} where order_id=#{order.orderId}
     </update>
 
     <!--通过id查询一个订单-->

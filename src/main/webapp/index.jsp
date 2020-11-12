@@ -157,7 +157,7 @@
             </div>
 
             <div id="tab2_content_1">
-                <form action="queryFlightInformation" name="flight">
+                <form action="queryFlightInformation" name="flight" method="Get">
                     <table id="tab_content2" class="tab_content">
                         <tr><td>出发城市</td><td>到达城市</td><td>出发时间</td></tr>
                         <tr>

@@ -1,36 +1,34 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: zhaohuaqi
-  Date: 2020/11/12
-  Time: 9:57
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-
-<head><title>订购机票信息</title>
+<head>
     <link href="bootstrap3/css/bootstrap.css" rel="stylesheet" />
     <script src="js/jquery-1.5.1.min.js" type="text/javascript"></script>
     <title>Title</title>
     <style type="text/css">
         @import "css/other.css";
         @import url(css/news.css);
-        *{
+
+        * {
             margin: 0;
             padding: 0;
             list-style: none;
         }
-        body{
-            font-family: sans-serif,Verdana, Helvetica, Arial;
+
+        body {
+            font-family: sans-serif, Verdana, Helvetica, Arial;
         }
-        #main{
-            padding-left:0;
+
+        #main {
+            padding-left: 0;
         }
-        .kv-item{
+
+        .kv-item {
             padding-left: 100px;
             padding-bottom: 20px;
         }
-        .kv-label{
+
+        .kv-label {
             display: inline;
             height: 28px;
             line-height: 28px;
@@ -39,55 +37,62 @@
             text-align: left;
             width: 100px;
         }
-        .text-align{
-            border:1px solid #474E63;
+
+        .text-align {
+            border: 1px solid #474E63;
             color: #0A1844;
             height: 26px;
-            line-height:26px;
-            padding:0 2px;
+            line-height: 26px;
+            padding: 0 2px;
             width: 177px;
             text-align: left;
         }
-        #submit{
+
+        #submit {
             margin-left: 80px;
-            border:1px solid #474E63;
-            background:#E61156;
+            border: 1px solid #474E63;
+            background: #E61156;
             height: 26px;
             font-weight: bold;
             color: #FFFFFF;
             width: 150px;
         }
-        #submit1{
+
+        #submit1 {
             margin-left: 300px;
-            border:1px solid #474E63;
-            background:#E61156;
+            border: 1px solid #474E63;
+            background: #E61156;
             height: 26px;
             font-weight: bold;
             color: #FFFFFF;
             width: 150px;
-            border-radius:9px;
+            border-radius: 9px;
         }
-        #reset{
-            border:1px solid #474E63;
+
+        #reset {
+            border: 1px solid #474E63;
             height: 26px;
             font-weight: bold;
         }
-        h1{
+
+        h1 {
 
             width: 800px;
-            background:#008acb;
+            background: #008acb;
             color: #FFFFFF;
         }
-        .div{
+
+        .div {
             margin: auto;
             padding-left: 150px;
             background-color: gainsboro;
         }
-        .footer{
+
+        .footer {
 
             height: 30px;
             width: 100%;
-            background-color:#FFFFFF;
+            background-color: #FFFFFF;
             color: #8A8790;
             position: fixed;
             bottom: 0;
@@ -102,34 +107,74 @@
         var $parent;
         if (num == 1) {
             $parent = $("table tr.addPersonTh");   //num默认为1 如果当前没元素就在标题后添加
-        } else if (num >=4){
+        } else if (num >= 4) {
             alert("最多输入三个乘客");
             num--;
             stop();
-        }
-        else {
+        } else {
             $parent = $("table tr:.addPerson:eq(" + (num - 2) + ")");   //num默认为1 进入add事件首先将num+1，所以此处要获取在哪里添加元素需-2
         }
         $parent.after($tr);
         init();
     }
+
+    var arr = [];
+    var arr2 = [];
+
     function query() {          /* 获取人员行 */
-        var arr = [];
-        var arr2 = [];
+
         var m = -1;
         for (var i = 0; i < num; i++) {
             for (var j = 0; j < 2; j++) {
                 var l = 0;
                 var k = 1;
                 m++;
-                arr[i]=$("table tr:.addPerson:eq(" + i + ") td:eq(" + l + ") :text").val();
-                arr2[i]=$("table tr:.addPerson:eq(" + i + ") td:eq(" + k + ") :text").val();
-                alert("第"+(i+1)+"行第"+(j+1)+"的值是："+$("table tr:.addPerson:eq(" + i + ") td:eq(" + j + ") :text").val());
+                arr[i] = $("table tr:.addPerson:eq(" + i + ") td:eq(" + l + ") :text").val();
+                arr2[i] = $("table tr:.addPerson:eq(" + i + ") td:eq(" + k + ") :text").val();
+                // alert("第" + (i + 1) + "行第" + (j + 1) + "的值是：" + $("table tr:.addPerson:eq(" + i + ") td:eq(" + j + ") :text").val());
+
             }
         }
+
+        var username = arr.join("/")
+        var uid = arr2.join("/")
+        let userId =${sessionScope.user.userId};
+        let airId = "${sessionScope.flight.airId}";
+        let originTime = "${sessionScope.flight.originTime}";
+        let destinationTime ="${sessionScope.flight.destinationTime}";
+        let price =${sessionScope.flight.price};
+        let state = "未支付";
+
+        generateOrder(username, uid, userId, airId, originTime, destinationTime, price, state)
+
+        function generateOrder(username, uid, userId, airId, originTime, destinationTime, price, state) {
+            $.ajax({
+                type: "POST",
+                url: "insertOrder",
+                traditional: true,
+                data: {
+                    "username": username,
+                    "uid": uid,
+                    "userId": userId,
+                    "airId": airId,
+                    "originTime": originTime,
+                    "destinationTime": destinationTime,
+                    "price": price,
+                    "state": state
+                },
+                success: function (data) {
+                    var jsonObj = data;
+                    alert(jsonObj.msg);
+                    window.location.href = "";
+                }
+            });
+        }
+
         console.log(arr);
         console.log(arr2);
+
     }
+
     function init() {           /* 删除人员行 */
         $("table tr td a.del").unbind("click").click(function () {
             $(this).parent().parent().remove();
@@ -145,14 +190,67 @@
         parent.location.href = "${pageContext.request.contextPath}/login.jsp";
 
     }
+
     function registerBtn() {
         parent.location.href = "${pageContext.request.contextPath}/registerUser.jsp";
     }
+
     function cancellationBtn() {
-        parent.location.href="${pageContext.request.contextPath}/remove"
+        parent.location.href = "${pageContext.request.contextPath}/remove";
 
     }
+
     </script>
+    <script type="text/javascript">
+        function StringToDate(str) {
+
+            var strDate = str.split(" ");
+
+            var strDatepart = strDate[0].split("-");
+
+            var dtDate = new Date(strDatepart[0], strDatepart[1] - 1, strDatepart[2]);
+
+            return dtDate;
+
+        }
+    </script>
+    <%--    <script type="text/javascript">
+
+            var username = arr.join("/")
+            var uid = arr2.join("/")
+            let userId =${sessionScope.user.userId};
+            let airId = "${sessionScope.flight.airId}";
+            let originTime =${sessionScope.flight.originTime};
+            let destinationTime =${sessionScope.flight.destinationTime};
+            let price =${sessionScope.flight.price};
+            let state = "未支付";
+
+            function generateOrder(username, uid, userId, airId, originTime, destinationTime, price, state) {
+                $("#btn_save").click(function () {
+                    query();
+                    $.ajax({
+                        type: "POST",
+                        url: "insertOrder",
+                        traditional: true,
+                        data: {
+                            "username": username,
+                            "uid": uid,
+                            "userId": userId,
+                            "airId": airId,
+                            "originTime": originTime,
+                            "destinationTime": destinationTime,
+                            "price": price,
+                            "state": state
+                        },
+                        success: function (data) {
+                            var jsonObj = data;
+                            alert(jsonObj.msg);
+                            window.location.href = "";
+                        }
+                    });
+                })
+            }
+        </script>--%>
 </head>
 <body>
 <div id="header">
@@ -228,7 +326,7 @@
             <span><a href="indexuser.jsp">${sessionScope.user.username}</a></span>
             <span><button class="logindropbt" onclick="cancellationBtn()">注销</button></span>
         </c:if>
-        <c:if test="${empty sessionScope.user.username}">
+        <c:if test="${empty sessionScope.user}">
             <span><button class="logindropbt" onclick="loginBtn()">登录</button></span>
             <span><button class="logindropbt" onclick="registerBtn()">注册</button></span>
         </c:if>
@@ -262,31 +360,36 @@
 <div class="div">
     <div id="main" align="left">
         <form name="personalForm" id="form_edu" method="post" action="RegisterController" onSubmit="return check(this)">
-            <div class="div" style=" padding-left: 20px;height: 290px;width: 840px;margin-left: 10px;;">
-                <h1 align="left" style="font-size: 26px; height: 40px">乘机人信息 </h1>
-                　　  <table id="tabConten" cellpadding="10" cellspacing="0">
-                <tr>
-                    <td  style=" border-left-width:0px;" colspan="5" >
-                        <input type="button" value="添加人员" style="margin-right:0px; font-size: 20px" onclick="add()" class="btn btn-success"/>
-                        <input id="btn_save" type="button" style="font-size: 20px" value="提交" class="btn btn-primary" onclick="query()"/>
-                    </td>
-                </tr>
-                <tr class="addPersonTh">
-                    <td class="tdFontW tdCos_01"><span style="color: #F00" class="tdAlignL">*</span>&nbsp;姓名</td>
-                    <td class="tdFontW tdCos_04"><span style="color: #F00" class="tdAlignL">*</span>&nbsp;证件号码</td>
-                    <td class="tdFontW tdCos_05">操作</td>
-                </tr>
-                <tr class="addPerson">
-                    <td>
-                        <span class="span_none">A: &nbsp;&nbsp; </span>
-                        <input type="text" maxlength="10" />
-                    </td>
-                    <td><input type="text" maxlength="18"  /></td>
-                    <td><a href="#" class="del" style="font-size: 15px">删除</a></td>
-                </tr>
-            </table>
+            <div class="div">
+                <h1 align="left" style="font-size: 26px">乘机人信息 </h1>
+                　　
+                <table id="tabConten" cellpadding="10" cellspacing="0">
+                    <tr>
+                        <td style=" border-left-width:0px;" colspan="5">
+                            <input type="button" value="添加人员" style="margin-right:0px; font-size: 20px" onclick="add()"
+                                   class="btn btn-info"/>
+                            <input id="btn_save" type="button" style="font-size: 20px" value="提交"
+                                   class="btn btn-success" onclick="query()"/>
+                        </td>
+                    </tr>
+                    <tr class="addPersonTh">
+                        <td class="tdFontW tdCos_01"><span style="color: #F00" class="tdAlignL">*</span>&nbsp;姓名</td>
+                        <td class="tdFontW tdCos_04"><span style="color: #F00" class="tdAlignL">*</span>&nbsp;证件号码</td>
+                        <td class="tdFontW tdCos_05">操作</td>
+                        <br>
+                    </tr>
+                    <tr class="addPerson">
+                        <td>
+                            <span class="span_none">A: &nbsp;&nbsp; </span>
+                            <input type="text" maxlength="10"/>
+                        </td>
+                        <td><input type="text" maxlength="18"/></td>
+                        <td><a href="#" class="del">删除</a></td>
+                    </tr>
+                </table>
             </div>
         </form>
+        <div>
 
             <div style="font-size:18px">
                 <input type="checkbox">阅读并接受<a href="chaolianjie.html">《旅客告知书》</a>
@@ -296,7 +399,7 @@
             </div>
             <br/>
     </div>
-    <div class="footer" >
+    <div class="footer" align="left">
         Copyright(C)1997-2020 中国南方航空股份有限公司 版权所有 粤ICP备05053330号
     </div>
 </div>
