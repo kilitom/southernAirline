@@ -33,7 +33,7 @@
 
 </head>
 
-<body>
+<body background="images/fj.png">
 <div id="header">
     <a href="index.jsp"><img alt="brand" src="images/sky.png"></a>
 </div>
@@ -150,11 +150,11 @@
             <li>预定</li>
         </ul>
     </div>
-
+<div id="xinxi" class="inform" style="text-align: center;font-size: 18px;background-color: gainsboro" >
     <c:if test="${empty flights}">
         <tr><td colspan="9" style="color:#ff0000;text-align:center;" >没有查询到相关信息</td></tr>
     </c:if>
-
+</div>
 </div>
 </body>
 <script type="text/javascript">

@@ -7,7 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<head>
+
+<head><title>订购机票信息</title>
     <link href="bootstrap3/css/bootstrap.css" rel="stylesheet" />
     <script src="js/jquery-1.5.1.min.js" type="text/javascript"></script>
     <title>Title</title>
@@ -80,6 +81,7 @@
         .div{
             margin: auto;
             padding-left: 150px;
+            background-color: gainsboro;
         }
         .footer{
 
@@ -260,37 +262,41 @@
 <div class="div">
     <div id="main" align="left">
         <form name="personalForm" id="form_edu" method="post" action="RegisterController" onSubmit="return check(this)">
-            <div class="div">
-                <h1 align="left" style="font-size: 26px">乘机人信息 </h1>
+            <div class="div" style=" padding-left: 20px;height: 290px;width: 840px;margin-left: 10px;;">
+                <h1 align="left" style="font-size: 26px; height: 40px">乘机人信息 </h1>
                 　　  <table id="tabConten" cellpadding="10" cellspacing="0">
                 <tr>
                     <td  style=" border-left-width:0px;" colspan="5" >
-                        <input type="button" value="添加人员" style="margin-right:0px; font-size: 20px" onclick="add()" class="btn btn-info"/>
-                        <input id="btn_save" type="button" style="font-size: 20px" value="提交" class="btn btn-success" onclick="query()"/>
+                        <input type="button" value="添加人员" style="margin-right:0px; font-size: 20px" onclick="add()" class="btn btn-success"/>
+                        <input id="btn_save" type="button" style="font-size: 20px" value="提交" class="btn btn-primary" onclick="query()"/>
                     </td>
                 </tr>
                 <tr class="addPersonTh">
                     <td class="tdFontW tdCos_01"><span style="color: #F00" class="tdAlignL">*</span>&nbsp;姓名</td>
                     <td class="tdFontW tdCos_04"><span style="color: #F00" class="tdAlignL">*</span>&nbsp;证件号码</td>
                     <td class="tdFontW tdCos_05">操作</td>
-                    <br>
                 </tr>
                 <tr class="addPerson">
                     <td>
                         <span class="span_none">A: &nbsp;&nbsp; </span>
                         <input type="text" maxlength="10" />
                     </td>
-                    <td><input type="text" maxlength="18" /></td>
-                    <td><a href="#" class="del">删除</a></td>
+                    <td><input type="text" maxlength="18"  /></td>
+                    <td><a href="#" class="del" style="font-size: 15px">删除</a></td>
                 </tr>
             </table>
             </div>
         </form>
-        <div >
+
+            <div style="font-size:18px">
+                <input type="checkbox">阅读并接受<a href="chaolianjie.html">《旅客告知书》</a>
+                <a href="https://www.csair.com/cn/tourguide/booking/orders/order/lvkexuzhi/guonei/"> 《旅客购票须知》 </a>
+                <a href="https://www.csair.com/cn/about/gongsijianjie/"> 《客票行李规定》 </a>
+                <a href="chaolianjie.html">《国内运输总条件》</a>
+            </div>
             <br/>
-        </div>
     </div>
-    <div class="footer" align="left">
+    <div class="footer" >
         Copyright(C)1997-2020 中国南方航空股份有限公司 版权所有 粤ICP备05053330号
     </div>
 </div>
