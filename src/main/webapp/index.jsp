@@ -47,7 +47,7 @@
     <a href="index.jsp"><img alt="brand" src="images/sky.png"></a>
 </div>
 
-<div id="menubar">
+<div id="menubar" style=" height: 70px;">
 
 
 
