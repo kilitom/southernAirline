@@ -48,7 +48,7 @@ public class OrderController {
     //    删除订单
     @RequestMapping(value = "deleteOrderById", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> deleteOrderByOrderId(@RequestParam("orderId") String orderId) {
+    public Map<String,Object> deleteOrderByOrderId(@RequestParam("orderId") int orderId) {
         Map<String, Object> map = new HashMap<String, Object>();
         int result = orderService.deleteOrder(orderId);
         if (result != 1) {
@@ -82,7 +82,7 @@ public class OrderController {
 //    根据订单编号查询订单
     @RequestMapping(value = "queryOrderById",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> queryOrderById(@RequestParam("orderId") String orderId,
+    public Map<String,Object> queryOrderById(@RequestParam("orderId") int orderId,
                                              HttpServletRequest req,
                                              HttpServletResponse resp) throws IOException{
 
@@ -92,7 +92,7 @@ public class OrderController {
         resultMap.put("date",order);
         String msg = "query success";
         String code = "200";
-        if (orderId == null || orderId.equals("")){
+        if (orderId == 0){
             msg = "参数错误";
             code = "500";
             resultMap.put("msg",msg);
@@ -171,5 +171,21 @@ public class OrderController {
         return  "orderList";
     }
 
+//   生成订单
+    @ResponseBody
+    @RequestMapping(value = "insertOrder",method = RequestMethod.POST)
+    public Map<String,Object> insertOrder(Order order){
+        Map<String,Object> map = new HashMap<>();
+
+        int i = orderService.insertOrder(order);
+        if (i!=1){
+            map.put("msg","生成订单失败");
+            map.put("code",500);
+        }
+        map.put("msg","生成订单成功");
+        map.put("code",200);
+        return map;
+
+    }
 
 }

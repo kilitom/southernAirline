@@ -103,6 +103,18 @@
                                        value="${sessionScope.order.state}" type="text">
                             </td>
                         </tr>
+                        <tr>
+                            <th width="120"><i class="require-red"></i>乘客：</th>
+                            <td>
+                                <input class="common-text required" id="username" name="username" size="50" value="${sessionScope.order.username}" type="text">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th width="120"><i class="require-red"></i>身份证号：</th>
+                            <td>
+                                <input class="common-text required" id="uid" name="uid" value="${sessionScope.order.uid}" size="50" type="text">
+                            </td>
+                        </tr>
 
 
                         <tr>

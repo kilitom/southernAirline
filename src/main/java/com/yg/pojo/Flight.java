@@ -4,7 +4,6 @@ package com.yg.pojo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 
 public class Flight {
 

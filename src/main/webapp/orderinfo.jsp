@@ -6,6 +6,7 @@
 <head>
     <meta charset="utf-8">
     <title>预定信息</title>
+    <script type="text/javascript" src="js/jquery-1.7.2.js"></script>
     <style type="text/css">
         @import "css/other.css";
         @import url(css/news.css);
@@ -58,7 +59,8 @@
             color: #FFFFFF;
             width: 150px;
         }
-        #addPassengers{
+
+        #addPassengers {
             margin-left: 80px;
             border: 1px solid #474E63;
             background: #E61156;
@@ -83,11 +85,12 @@
 
         .div {
             margin: auto;
-            padding-left: 300px;
+            padding-left: 135px;
         }
 
     </style>
     <script type="text/javascript">
+
         //判断前三个表单元素（用户名、密码、确认密码是否为空）
         function check(Form) {
             var check = true;
@@ -112,17 +115,108 @@
             }
             return check;
         }
+
         function loginBtn() {
             parent.location.href = "${pageContext.request.contextPath}/login.jsp";
 
         }
+
         function registerBtn() {
             parent.location.href = "${pageContext.request.contextPath}/registerUser.jsp";
         }
+
         function cancellationBtn() {
-            parent.location.href="${pageContext.request.contextPath}/remove"
+            parent.location.href = "${pageContext.request.contextPath}/remove"
 
         }
+    </script>
+    <script type="text/javascript" src="js/jquery-1.7.2.js">
+
+
+        function generateOrder() {
+            var username = arrUsername.join("/")
+            var uid = arrUid.join("/")
+            let userId =${sessionScope.user.userId};
+            let airId =${sessionScope.flight.airId};
+            let originTime =${sessionScope.flight.originTime};
+            let destinationTime =${sessionScope.flight.destinationTime};
+            let price =${sessionScope.flight.price};
+            let state = "未支付";
+            $.ajax({
+                type: "POST",
+                url: "insertOrder",
+                traditional: true,
+                data: {
+                    "username": username,
+                    "uid": uid,
+                    "userId": userId,
+                    "airId": airId,
+                    "originTime": originTime,
+                    "destinationTime": destinationTime,
+                    "price": price,
+                    "state": state
+                },
+                success: function (data) {
+                    var jsonObj = data;
+                    alert(jsonObj.msg);
+                    window.location.href = ""
+                }
+            });
+
+        }
+
+
+    </script>
+    <script type="text/javascript">        /* 增加tr行 */
+    var num = 1;        //全局变量 默认为一组控件
+    function add() {                    /* 增加人员行 */
+        num++;
+        var str = String.fromCharCode(64 + num);
+        var $tr = $("<tr class=\"addPerson\"><td><span class=\"span_none\"> " + str + ": &nbsp;&nbsp; </span><input type=\"text\" maxlength=\"10\"/></td><td><input type=\"text\" maxlength=\"18\"/></td><td><a href=\"#\" class=\"del\">删除</a></td></tr>");
+        var $parent;
+        if (num == 1) {
+            $parent = $("table tr.addPersonTh");   //num默认为1 如果当前没元素就在标题后添加
+        } else if (num >= 4) {
+            alert("最多输入三个乘客");
+            num--;
+            stop();
+        } else {
+            $parent = $("table tr:.addPerson:eq(" + (num - 2) + ")");   //num默认为1 进入add事件首先将num+1，所以此处要获取在哪里添加元素需-2
+        }
+        $parent.after($tr);
+        init();
+    }
+
+    var arrUsername = [];
+    var arrUid = [];
+
+    function query() {          /* 获取人员行 */
+
+        var m = -1;
+        for (var i = 0; i < num; i++) {
+            for (var j = 0; j < 2; j++) {
+                var l = 0;
+                var k = 1;
+                m++;
+                arrUsername[i] = $("table tr:.addPerson:eq(" + i + ") td:eq(" + l + ") :text").val();
+                arrUid[i] = $("table tr:.addPerson:eq(" + i + ") td:eq(" + k + ") :text").val();
+                // alert("第" + (i + 1) + "行第" + (j + 1) + "的值是：" + $("table tr:.addPerson:eq(" + i + ") td:eq(" + j + ") :text").val());
+            }
+        }
+        // console.log(arrUsername);
+        // console.log(arrUid);
+    }
+
+    function init() {           /* 删除人员行 */
+        $("table tr td a.del").unbind("click").click(function () {
+            $(this).parent().parent().remove();
+            for (var i = 0; i < num - 1; i++) {
+                var str = String.fromCharCode(65 + i) + ":";
+                $("table tr:.addPerson:eq(" + i + ") span").html(str);
+            }
+            num--;
+        });
+    }
     </script>
     <!--JS代码结束-->
 </head>
@@ -222,64 +316,54 @@
             <li>到达时间</li>
             <li>价格</li>
         </ul>
-            <div class="flight">
-                <ul>
-                    <li>${sessionScope.flight.airId}</li>
-                    <li>${sessionScope.flight.origin}</li>
-                    <li>${sessionScope.flight.destination}</li>
-                    <li>${sessionScope.flight.originTime}</li>
-                    <li>${sessionScope.flight.destinationTime}</li>
-                    <li>${sessionScope.flight.price}</li>
-                </ul>
-            </div>
+        <div class="flight">
+            <ul>
+                <li>${sessionScope.flight.airId}</li>
+                <li>${sessionScope.flight.origin}</li>
+                <li>${sessionScope.flight.destination}</li>
+                <li>${sessionScope.flight.originTime}</li>
+                <li>${sessionScope.flight.destinationTime}</li>
+                <li>${sessionScope.flight.price}</li>
+            </ul>
+        </div>
     </div>
 </div>
 <div class="div">
-    <h1 align="left" style="font-size: 26px">乘机人信息 </h1>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
     <div id="main" align="left">
-        <form name="personalForm" method="post" action="RegisterController" onSubmit="return check(this)">
-
-            <div class="kv-item">
-               <span class="kv-label">
-             <label class="tsl" for="name">旅客姓名：</label>
-              </span>
-                <input type="text" name="name" class="text-align" id="name" placeholder="*必填项" autofocus size="25"
-                       title="用户名">
-            </div>
-
-            <div class="kv-item">
-                <span class="kv-label">
-                 <label class="tsl">旅客性别：</label>
-                </span>
-                <input type="text" name="sex">
-            </div>
-
-            <div class="kv-item">
-                <span class="kv-label">
-                 <label class="tsl" for="news">证件信息：</label>
-                </span>
-                <th>
-                    <select font-size:font-size:30px>
-                        <option value="身份证">身份证</option>
-                    </select>
-                </th>
-                <input type="password" name="news" class="text-align" id="news" placeholder="*必填项" size="25"
-                       title="证件信息">
-            </div>
-
-            <div class="kv-item">
-                <input type="submit" name="submit" id="addPassengers" style="border-radius: 9px" value="添加乘客">
-                <input type="submit" name="submit" id="submit" style="border-radius: 9px" value="提交">
+        <form name="order" id="form_edu" onSubmit="generateOrder()">
+            <div class="div">
+                <h1 align="left" style="font-size: 26px">乘机人信息 </h1>
+                　　
+                <table id="tabConten" cellpadding="10" cellspacing="0">
+                    <tr>
+                        <td style=" border-left-width:0px;" colspan="5">
+                            <input type="button" value="添加人员" style="margin-right:0px;" onclick="add()"
+                                   class="btn btn-info"/>
+                            <input id="btn_save" type="submit" value="提交" class="btn btn-success" onclick="query()"/>
+                        </td>
+                    </tr>
+                    <tr class="addPersonTh">
+                        <td class="tdFontW tdCos_01"><span style="color: #F00" class="tdAlignL">*</span>&nbsp;姓名</td>
+                        <td class="tdFontW tdCos_04"><span style="color: #F00" class="tdAlignL">*</span>&nbsp;证件号码</td>
+                        <td class="tdFontW tdCos_05">操作</td>
+                    </tr>
+                    <tr class="addPerson">
+                        <td>
+                            <span class="span_none">A: &nbsp;&nbsp; </span>
+                            <input type="text" maxlength="10"/>
+                        </td>
+                        <td><input type="text" maxlength="18"/></td>
+                        <td><a href="#" class="del">删除</a></td>
+                    </tr>
+                </table>
             </div>
         </form>
+        <div>
+            <br/>
+        </div>
     </div>
-    <div>
-        <input type="checkbox">阅读并接受<a href="chaolianjie.html">《旅客告知书》</a>
-        <a href="chaolianjie.html">《旅客购票须知》</a>
-        <a href="chaolianjie.html">《客票行李规定》</a>
-        <a href="chaolianjie.html">《国内运输总条件》</a>
+    <div class="footer" align="left">
+        Copyright(C)1997-2020 中国南方航空股份有限公司 版权所有 粤ICP备05053330号
     </div>
 </div>
 </body>
