@@ -50,7 +50,7 @@ public class OrderController {
     //    删除订单
     @RequestMapping(value = "deleteOrderById", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> deleteOrderByOrderId(@RequestParam("orderId") int orderId) {
+    public Map<String,Object> deleteOrderByOrderId(@RequestParam("orderId") String orderId) {
         Map<String, Object> map = new HashMap<String, Object>();
         int result = orderService.deleteOrder(orderId);
         if (result != 1) {
@@ -84,7 +84,7 @@ public class OrderController {
 //    根据订单编号查询订单
     @RequestMapping(value = "queryOrderById",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> queryOrderById(@RequestParam("orderId") int orderId,
+    public Map<String,Object> queryOrderById(@RequestParam("orderId") String orderId,
                                              HttpServletRequest req,
                                              HttpServletResponse resp) throws IOException{
 
@@ -94,7 +94,7 @@ public class OrderController {
         resultMap.put("date",order);
         String msg = "query success";
         String code = "200";
-        if (orderId == 0){
+        if (orderId == null|| orderId.equals(" ")){
             msg = "参数错误";
             code = "500";
             resultMap.put("msg",msg);

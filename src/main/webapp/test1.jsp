@@ -107,8 +107,8 @@
         var $parent;
         if (num == 1) {
             $parent = $("table tr.addPersonTh");   //num默认为1 如果当前没元素就在标题后添加
-        } else if (num >= 4) {
-            alert("最多输入三个乘客");
+        } else if (num >=5) {
+            alert("最多输入4个乘客");
             num--;
             stop();
         } else {
@@ -136,23 +136,37 @@
             }
         }
 
+        /*生成随机订单号*/
+        function random_No(j) {
+            var random_no = "";
+            for (var i = 0; i < j; i++) //j位随机数，用以加在时间戳后面。
+            {
+                random_no += Math.floor(Math.random() * 10);
+            }
+            random_no = new Date().getTime() + random_no;
+            console.log(random_no);
+            return random_no;
+        };
+
+        var orderId = random_No(8);
         var username = arr.join("/")
         var uid = arr2.join("/")
-        let userId =${sessionScope.user.userId};
+        let userId ="${sessionScope.user.userId}";
         let airId = "${sessionScope.flight.airId}";
         let originTime = "${sessionScope.flight.originTime}";
         let destinationTime ="${sessionScope.flight.destinationTime}";
         let price =${sessionScope.flight.price};
         let state = "未支付";
 
-        generateOrder(username, uid, userId, airId, originTime, destinationTime, price, state)
+        generateOrder(orderId,username, uid, userId, airId, originTime, destinationTime, price, state)
 
-        function generateOrder(username, uid, userId, airId, originTime, destinationTime, price, state) {
+        function generateOrder( orderId,username, uid, userId, airId, originTime, destinationTime, price, state) {
             $.ajax({
                 type: "POST",
                 url: "insertOrder",
                 traditional: true,
                 data: {
+                    "orderId":orderId,
                     "username": username,
                     "uid": uid,
                     "userId": userId,
@@ -252,20 +266,22 @@
             }
         </script>--%>
 </head>
-<body>
+<body  background="images/fj.png">
 <div id="header">
     <a href="index.jsp"><img alt="brand" src="images/sky.png"></a>
 </div>
 
-<div id="menubar" style=" height: 80px;">
-
-
-    <div class="dropdown" style=" height: 60px;">
+<div id="menubar" style="
+     padding-top: 0px;
+     padding-bottom: 0px;
+     height: 70px;"
+>
+    <div class="dropdown">
         <a href="index.jsp">
             <button class="dropbt">首页</button>
         </a>
     </div>
-    <div class="dropdown" style=" height: 60px;">
+    <div class="dropdown">
         <button class="dropbt">预定管理</button>
         <div class="content">
             <a href="https://b2c.csair.com/B2C40/newTrips/static/main/page/search/index.html">机票预定</a>
@@ -275,7 +291,7 @@
             <a href="https://www.csair.com/cn/bookings/enterprise/corporate_travel/index.shtml">企业商旅</a>
         </div>
     </div>
-    <div class="dropdown" style=" height: 60px;">
+    <div class="dropdown">
         <button class="dropbt">南航会员</button>
         <div class="content">
             <a href="#">我的账户</a>
@@ -286,10 +302,10 @@
             <a href="#">优惠专区</a>
         </div>
     </div>
-    <div class="dropdown" style=" height: 60px;">
+    <div class="dropdown">
         <button class="dropbt">出行帮助</button>
         <div class="content">
-            <a href="rules.jsp">购票服务</a>
+            <a href="../dwlogin/rules.jsp">购票服务</a>
             <a href="https://www.csair.com/cn/tourguide/booking/orders/order/lvkexuzhi/guonei/index.shtml">预订须知</a>
             <a href="#">出行准备</a>
             <a href="#">地面服务</a>
@@ -297,7 +313,7 @@
             <a href="#">运输规定</a>
         </div>
     </div>
-    <div class="dropdown" style=" height: 60px;">
+    <div class="dropdown">
         <button class="dropbt">优惠信息</button>
         <div class="content">
             <a href="https://www.csair.com/cn/favourable/discount_tickets_domestic/">优惠机票</a>
@@ -305,7 +321,7 @@
             <a href="https://www.csair.com/cn/favourable/joint_promotion/">精彩活动</a>
         </div>
     </div>
-    <div class="dropdown" style=" height: 60px;">
+    <div class="dropdown">
         <button class="dropbt">NDC合作</button>
         <div class="content">
             <a href="#">NDC简介</a>
@@ -313,25 +329,27 @@
             <a href="#">申请合作</a>
         </div>
     </div>
-    <div class="dropdown" style=" height: 60px;">
-        <button class="dropbt">明珠俱乐部</button>
+    <div class="dropdown">
+        <button class="dropbt" style="width: 150px;">明珠俱乐部</button>
         <div class="content">
             <a href="#">账户管理</a>
             <a href="#">里程兑换</a>
             <a href="#">里程累计</a>
         </div>
     </div>
+
     <div class="rightlogin">
         <c:if test="${not empty sessionScope.user}">
             <span><a href="indexuser.jsp">${sessionScope.user.username}</a></span>
             <span><button class="logindropbt" onclick="cancellationBtn()">注销</button></span>
         </c:if>
-        <c:if test="${empty sessionScope.user}">
+        <c:if test="${empty sessionScope.user.username}">
             <span><button class="logindropbt" onclick="loginBtn()">登录</button></span>
             <span><button class="logindropbt" onclick="registerBtn()">注册</button></span>
         </c:if>
     </div>
     <hr>
+
 </div>
 <p>&nbsp;</p>
 <div class="wrap">
@@ -360,7 +378,7 @@
 <div class="div">
     <div id="main" align="left">
         <form name="personalForm" id="form_edu" method="post" action="RegisterController" onSubmit="return check(this)">
-            <div class="div">
+            <div class="div" style=" padding-left: 20px;  margin-right: 200px; width: 1040px;">
                 <h1 align="left" style="font-size: 26px">乘机人信息 </h1>
                 　　
                 <table id="tabConten" cellpadding="10" cellspacing="0">

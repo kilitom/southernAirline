@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 
 public class Order {
 
-  private int orderId;
+  private String orderId;
   private long userId;
   private String airId;
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
@@ -22,7 +22,7 @@ public class Order {
 
 
 
-  public Order(int orderId, long userId, String airId, Date originTime, Date destinationTime, double price, String state,String username,String uid) {
+  public Order(String orderId, long userId, String airId, Date originTime, Date destinationTime, double price, String state,String username,String uid) {
     this.orderId = orderId;
     this.userId = userId;
     this.airId = airId;
@@ -51,11 +51,11 @@ public class Order {
   public void setUid(String uid) {
     this.uid = uid;
   }
-  public int getOrderId() {
+  public String getOrderId() {
     return orderId;
   }
 
-  public void setOrderId(int orderId) {
+  public void setOrderId(String orderId) {
     this.orderId = orderId;
   }
 
