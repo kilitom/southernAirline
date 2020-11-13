@@ -63,7 +63,6 @@
         </div>
        
         <div class="result-wrap">
-       >
             <div class="result-content">
                 <ul class="sys-info-list">
  

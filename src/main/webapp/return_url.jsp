@@ -3,13 +3,17 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>电脑网站支付return_url</title>
+<title>电脑网站支付</title>
 </head>
 <%@ page import="java.util.*"%>
 <%@ page import="java.util.Map"%>
 <%@ page import="com.alipay.config.*"%>
 <%@ page import="com.alipay.api.*"%>
 <%@ page import="com.alipay.api.internal.util.*"%>
+<%@ page import="com.yg.pojo.Order" %>
+<%@ page import="org.springframework.context.support.ClassPathXmlApplicationContext" %>
+<%@ page import="org.springframework.context.ApplicationContext" %>
+<%@ page import="com.yg.service.OrderService" %>
 <%
 /* *
  * 功能：支付宝服务器同步通知页面
@@ -52,12 +56,23 @@
 		//付款金额
 		String total_amount = new String(request.getParameter("total_amount").getBytes("ISO-8859-1"),"UTF-8");
 		
-		out.println("trade_no:"+trade_no+"<br/>out_trade_no:"+out_trade_no+"<br/>total_amount:"+total_amount);
+		//out.println("trade_no:"+trade_no+"<br/>out_trade_no:"+out_trade_no+"<br/>total_amount:"+total_amount);
+		Order order = (Order)request.getSession().getAttribute("orderUpdateState");
+		order.setState("已支付");
+		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		OrderService orderService = context.getBean(OrderService.class);
+		orderService.updateOrder(order);
 	}else {
 		out.println("验签失败");
 	}
 	//——请在这里编写您的程序（以上代码仅作参考）——
 %>
-<body>
+<link href="bootstrap3/css/bootstrap.css" rel="stylesheet" />
+<script src="js/jquery-1.5.1.min.js" type="text/javascript"></script>
+
+<body background="images/fj.png">
+<br>
+<h1 style="text-align:left; font-size: 28px">完成支付，请返回个人页面</h1>
+<a href="indexuser.jsp"><button class="btn btn-info" style="font-size: 20px">用户中心</button></a>
 </body>
 </html>

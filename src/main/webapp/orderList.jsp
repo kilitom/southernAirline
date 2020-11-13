@@ -39,6 +39,71 @@
             color: #FFF;;
         }
     </style>
+<%--xin新添用户订单删除--%>
+    <script type="text/javascript" src="js/jquery-1.7.2.js"></script>
+    <script type="text/javascript">
+        function sc() {
+            $(".sc").click(function () {
+                var orderId = $(this).attr("orderId");
+                $.ajax({
+                    type: "POST",
+                    url: "deleteOrderById",
+                    data: {"orderId": orderId},
+                    beforeSend: function () {
+                        var del = confirm("确认是否删除");
+                        return del;
+                    },
+                    success: function (data) {
+                        var jsonObj = data;
+                        alert(jsonObj.msg)
+                        window.location.href = "queryOrderByUserId?userId=${sessionScope.user.userId}";
+                    }
+                })
+            });
+        }
+
+        queryUserLimit(1, 10);
+
+        function queryUserLimit(nowPageNo, nowPageSize) {
+            $.ajax({
+                type: "POST",
+                url: "queryAllOrder",
+                data: {"pageNo": nowPageNo, "pageSize": nowPageSize},
+                success: function (data) {
+                    var jsonObj = data;
+                    if (jsonObj.code == "200") {
+                        $("#pageNo").attr("value", nowPageNo);
+                        $(".data").remove();
+                      /*  var flightId = jsonObj.data;*/
+                       /* addData(flightId);*/
+                        /*updateBtn();*/
+                        sc();
+
+                    } else {
+                        $(".data").remove();
+                        $("#userTable").append("<tr><td colspan='9'>" + jsonObj.msg + "</td></tr>")
+                    }
+                    var users = jsonObj.data;
+                }
+            });
+        }
+
+
+
+        // //11.11下午实验用户从中心去支付
+        // function gx() {
+        //     /*var jsonObj = data;*/
+        //     var amount=price;
+        //     var product = airId;
+        //     var body = "lmc";
+        //  /*   alert(jsonObj.msg);*/
+        //     window.location.href = "http://localhost:8080/southernAirline/pay/aliPay/"+orderId+"/"+amount+"/"+product+"/"+body;
+        // }
+
+
+
+    </script>
+
 </head>
 
 <body>
@@ -68,6 +133,7 @@
         <tr>
             <th>订单号</th>
             <th>用户号</th>
+            <th>乘客姓名</th>
             <th>航班号</th>
             <th>出发时间</th>
             <th>到达时间</th>
@@ -80,16 +146,17 @@
         <tr>
             <td>${order.orderId}</td>
             <td>${order.userId}</td>
+            <td>${order.username}</td>
             <td>${order.airId}</td>
             <td>${order.originTime}</td>
             <td>${order.destinationTime}</td>
             <td>${order.price}</td>
             <td>${order.state}</td>
             <td>
-                <button name="reset" value="支付" class="gx" style="background-color:#06C">支付</button>
+                <button name="reset" value="支付" class="gx" style="background-color:#06C;width: 44px;height: 29px;">支付</button>
             </td>
             <td>
-                <button name="delate" value="取消" class="sc" style="background-color:#06C">取消</button>
+                <button name="delate" value="取消" orderId="${order.orderId}" class="sc" style="background-color:#06C;width: 44px;height: 29px;">取消</button>
             </td>
         </tr>
         </c:forEach>

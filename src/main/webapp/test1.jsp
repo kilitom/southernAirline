@@ -178,8 +178,11 @@
                 },
                 success: function (data) {
                     var jsonObj = data;
+                    var amount=price;
+                    var product = airId;
+                    var body = "lmc";
                     alert(jsonObj.msg);
-                    window.location.href = "";
+                    window.location.href = "http://localhost:8080/southernAirline/pay/aliPay/"+orderId+"/"+amount+"/"+product+"/"+body;
                 }
             });
         }
@@ -417,7 +420,7 @@
             </div>
             <br/>
     </div>
-    <div class="footer" align="left">
+    <div class="footer" align="left" style="  width: 970px;">
         Copyright(C)1997-2020 中国南方航空股份有限公司 版权所有 粤ICP备05053330号
     </div>
 </div>

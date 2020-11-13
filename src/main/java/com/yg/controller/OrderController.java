@@ -178,7 +178,8 @@ public class OrderController {
     @RequestMapping(value = "insertOrder",method = RequestMethod.POST)
     public Map<String,Object> insertOrder(Order order,
                                           @RequestParam("originTime") String origintime,
-                                          @RequestParam("destinationTime") String destinationtime){
+                                          @RequestParam("destinationTime") String destinationtime,
+                                          HttpServletRequest req){
         Map<String,Object> map = new HashMap<>();
         Date originTime = DateUtil.strToUtil(origintime);
         Date detinationTime = DateUtil.strToUtil(destinationtime);
@@ -191,6 +192,8 @@ public class OrderController {
         }
         map.put("msg","生成订单成功");
         map.put("code",200);
+        Order order1 = orderService.queryOrderById(order.getOrderId());
+        req.getSession().setAttribute("orderUpdateState",order1);
         return map;
 
     }

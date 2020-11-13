@@ -118,6 +118,7 @@ public class Order {
     return "Order{" +
             "orderId='" + orderId + '\'' +
             ", userId=" + userId +
+            ", username=" + username +
             ", airId='" + airId + '\'' +
             ", originTime=" + originTime +
             ", destinationTime=" + destinationTime +

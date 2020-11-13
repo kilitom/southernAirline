@@ -15,7 +15,7 @@
     <!--更新一个订单-->
     <update id="updateOrder">
     update `order`
-    set order_id=#{order.orderId},user_id=#{order.userId},air_id=#{order.airId},origin_time=#{order.originTime},destination_time=#{order.destinationTime},price=#{order.price},state=#{order.state},username=#{order.username},uid=#{order.uid} where order_id=#{order.orderId}
+    set user_id=#{order.userId},air_id=#{order.airId},origin_time=#{order.originTime},destination_time=#{order.destinationTime},price=#{order.price},`state`=#{order.state},username=#{order.username},uid=#{order.uid} where order_id=#{order.orderId}
     </update>
 
     <!--通过id查询一个订单-->
