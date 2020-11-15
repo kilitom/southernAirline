@@ -57,11 +57,11 @@
 		String total_amount = new String(request.getParameter("total_amount").getBytes("ISO-8859-1"),"UTF-8");
 		
 		//out.println("trade_no:"+trade_no+"<br/>out_trade_no:"+out_trade_no+"<br/>total_amount:"+total_amount);
-		Order order = (Order)request.getSession().getAttribute("orderUpdateState");
-		order.setState("已支付");
+		Order order = (Order)request.getSession().getAttribute("orderUpdateState");//获取到orderid
+		order.setState("已支付");//更改用户状态
 		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-		OrderService orderService = context.getBean(OrderService.class);
-		orderService.updateOrder(order);
+		OrderService orderService = context.getBean(OrderService.class);//数据实例化
+		orderService.updateOrder(order);//数据库更新
 	}else {
 		out.println("验签失败");
 	}

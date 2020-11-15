@@ -148,7 +148,7 @@
             return random_no;
         };
 
-        var orderId = random_No(8);
+        var orderId = random_No(3);
         var username = arr.join("/")
         var uid = arr2.join("/")
         let userId ="${sessionScope.user.userId}";

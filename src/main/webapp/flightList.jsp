@@ -213,7 +213,7 @@
 
             $.ajax({
                 type: "GET",
-                url: "queryFlightInformationMap",
+                url: "queryFlightInformationMap", 
                 data: {"origin": origin, "destination": destination, "originTime": originTime},
                 success: function (data) {
                     var jsonObj = data;

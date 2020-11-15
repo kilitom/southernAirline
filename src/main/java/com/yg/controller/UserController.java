@@ -49,6 +49,7 @@ public class UserController {
         }
         map.put("code", 200);
         map.put("msg", "登录成功");
+        session.setAttribute("userId",result.getUserId());
         return "index";
     }
 
